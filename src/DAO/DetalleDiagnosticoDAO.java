@@ -61,7 +61,7 @@ public class DetalleDiagnosticoDAO {
                     + id_orden + ", " + id_diagnostico + ")";
             } else if (procedimiento.toLowerCase().equals("u")) {
                 sql = "UPDATE Detalle_Diagnosticos SET id_ordenServicio = " + id_orden + ", id_diagnostico = " + id_diagnostico
-                        + " WHERE id_ordenServicio = " + id_orden + "AND id_diagnostico = " + id_diagnostico;
+                        + " WHERE id_ordenServicio = " + id_orden + " AND id_diagnostico = " + id_diagnostico;
             }
             
             System.out.println(sql);

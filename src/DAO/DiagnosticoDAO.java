@@ -64,4 +64,36 @@ public class DiagnosticoDAO {
         
         return diagnosticos;
     }
+    
+    public boolean registrarDiagnostico(Diagnostico var, String procedimiento) {
+        boolean sw = false;
+        dbBean db = new dbBean();
+        String sql = "";
+        
+        if (procedimiento.toLowerCase().equals("insert")) {
+            sql = "INSERT INTO [dbo].[Diagnosticos]([id_diagnostico],[diag_desc])  "
+                    + " VALUES ("+var.getId_diagnostico()+",'"+var.getDiag_desc()+"' )";
+        } else if (procedimiento.toLowerCase().equals("update")) {
+            sql = "UPDATE Diagnosticos SET diag_desc='"+var.getDiag_desc()+"'  "
+                    + " WHERE id_diagnostico = " + var.getId_diagnostico();
+        }
+        
+        System.out.println(sql);
+        
+        try {
+            db.insUpd(sql);
+            sw = true;
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+        
+        try {
+            db.disconnect();
+            sw = true;
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return sw;
+    }
 }

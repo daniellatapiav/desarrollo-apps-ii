@@ -124,16 +124,17 @@ public class OrdenesDAO {
         obserDev = orden.getObserDev();
         id_empRec = orden.getEmplRec().getId_empleado();
         id_empDev = orden.getEmplDev().getId_empleado();
+        estado = orden.getEstado();
        
         
         if (procedimiento.toLowerCase().equals("i")) {
             sql = "INSERT INTO Ordenes_Servicio VALUES("
                     + id + ", CURDATE(), '" + plantel + "', " + id_usuario + ", " + id_equipo + ", "
-                    + id_tipo + ", '" + obserRec + "', '" + obserDev + "', " + id_empRec + ", " + id_empDev + ", 1)";
+                    + id_tipo + ", '" + obserRec + "', '" + obserDev + "', " + id_empRec + ", " + id_empDev + ", " + estado + ")";
         } else if (procedimiento.toLowerCase().equals("u")) {
             sql = "UPDATE Ordenes_Servicio SET id_ordenServicio = " + id + ", plantel = '" + plantel + "', id_usuario = " + id_usuario + ", id_equipo = " + id_equipo
                     + ", id_tipoMant = " + id_tipo + ", obserRec = '" + obserRec + "', obserDev = '" + obserDev
-                    + "', id_emplRec = " + id_empRec + ", id_emplDev = " + id_empDev + " WHERE id_ordenServicio = " + id;
+                    + "', id_emplRec = " + id_empRec + ", id_emplDev = " + id_empDev + ", estado = " + estado + " WHERE id_ordenServicio = " + id;
         }
         
         System.out.println(sql);

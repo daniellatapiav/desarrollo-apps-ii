@@ -234,7 +234,7 @@ public class RepuestosDlg extends javax.swing.JDialog {
             vector.add(this.inputCantidad.getText());
             
             if(this.rbProporcionado.isSelected()) {
-                vector.add("Solicitado");
+                vector.add("Proporcionado");
             } else if(this.rbSolicitar.isSelected()) {
                 vector.add("Solicitar");
             }

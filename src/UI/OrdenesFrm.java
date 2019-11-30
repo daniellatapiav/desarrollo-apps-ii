@@ -14,12 +14,17 @@ public class OrdenesFrm extends javax.swing.JFrame {
     DefaultTableModel dtmOrdenes, dtmFallas, dtmRepuestos, dtmDiagnosticos;
     OrdenesDAO ordenesDAO;
     int id, wd, hd, slx, sly;
+    Orden_Servicio orden;
     Empleado usuario, empRec, empDev;
     Equipo equipo;
+    Vector<Orden_Servicio> ordenes;
     Vector<Falla> fallas;
     Vector<Repuesto> repuestos;
     Vector<Diagnostico> diagnosticos;
-    Vector<Detalle_Repuesto> detalle_repuestos = new Vector<Detalle_Repuesto>();
+    Vector<Detalle_Repuesto> detalle_repuestos;
+    DetalleFallaDAO detalleFallaDAO;
+    DetalleRepuestoDAO detalleRepuestoDAO;
+    DetalleDiagnosticoDAO detalleDiagnosticoDAO;
 
     public OrdenesFrm() {
         initComponents();
@@ -38,17 +43,21 @@ public class OrdenesFrm extends javax.swing.JFrame {
         fallas = new Vector<Falla>();
         repuestos = new Vector<Repuesto>();
         diagnosticos = new Vector<Diagnostico>();
+        detalle_repuestos = new Vector<Detalle_Repuesto>();
         dtmOrdenes = (DefaultTableModel) this.tblOrdenes.getModel();
         dtmFallas = (DefaultTableModel) this.tblFallas.getModel();
         dtmRepuestos = (DefaultTableModel) this.tblRepuestos.getModel();
         dtmDiagnosticos = (DefaultTableModel) this.tblDiagnosticos.getModel();
         ordenesDAO = new OrdenesDAO();
+        detalleFallaDAO = new DetalleFallaDAO();
+        detalleRepuestoDAO = new DetalleRepuestoDAO();
+        detalleDiagnosticoDAO = new DetalleDiagnosticoDAO();
         poblarTabla(false, "");
         this.tabbedPane.setSelectedIndex(0);
     }
     
     public void poblarTabla(Boolean siFiltrar, String filtro) {
-        Vector<Orden_Servicio> ordenes = ordenesDAO.listarOrdenes(siFiltrar, filtro);
+        ordenes = ordenesDAO.listarOrdenes(siFiltrar, filtro);
         
         dtmOrdenes.setRowCount(0);
         
@@ -86,8 +95,6 @@ public class OrdenesFrm extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Debes seleccionar un tipo de mantenimiento.");
         } else if(this.inputEmpRec.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Debes seleccionar al empleado que recibió el equipo.");
-        } else if(this.inputEmpDev.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Debes seleccionar al empleado que devolvió el equipo.");
         } else {
             sw = true;
         }
@@ -120,6 +127,8 @@ public class OrdenesFrm extends javax.swing.JFrame {
         this.inputObsDev.setText("");    
         this.inputEmpRec.setText("");
         this.inputEmpDev.setText("");
+        this.rbEstadoOrden0.setSelected(false);
+        this.rbEstadoOrden1.setSelected(false);
     }
     
     public static void main(String args[]) {
@@ -163,16 +172,17 @@ public class OrdenesFrm extends javax.swing.JFrame {
         btnGroupEstadoUsuario = new javax.swing.ButtonGroup();
         btnGroupEstadoEquipo = new javax.swing.ButtonGroup();
         btnGroupTipoMant = new javax.swing.ButtonGroup();
+        btnGroupEstadoOrden = new javax.swing.ButtonGroup();
+        jLabel1 = new javax.swing.JLabel();
         tabbedPane = new javax.swing.JTabbedPane();
-        jScrollPane1 = new javax.swing.JScrollPane();
         jPanel1 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         inputBusqueda = new javax.swing.JTextField();
         jScrollPane4 = new javax.swing.JScrollPane();
         tblOrdenes = new javax.swing.JTable();
+        btnEditar = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jPanel2 = new javax.swing.JPanel();
-        jLabel60 = new javax.swing.JLabel();
         jLabel59 = new javax.swing.JLabel();
         inputPlantel = new javax.swing.JTextField();
         jPanel9 = new javax.swing.JPanel();
@@ -274,12 +284,53 @@ public class OrdenesFrm extends javax.swing.JFrame {
         jLabel87 = new javax.swing.JLabel();
         btnCancelar1 = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+        jPanel22 = new javax.swing.JPanel();
+        jPanel23 = new javax.swing.JPanel();
+        jRadioButton21 = new javax.swing.JRadioButton();
+        jRadioButton22 = new javax.swing.JRadioButton();
+        jRadioButton23 = new javax.swing.JRadioButton();
+        jRadioButton24 = new javax.swing.JRadioButton();
+        jRadioButton25 = new javax.swing.JRadioButton();
+        jPanel24 = new javax.swing.JPanel();
+        jRadioButton41 = new javax.swing.JRadioButton();
+        jRadioButton42 = new javax.swing.JRadioButton();
+        jRadioButton43 = new javax.swing.JRadioButton();
+        jRadioButton44 = new javax.swing.JRadioButton();
+        jRadioButton45 = new javax.swing.JRadioButton();
+        jPanel25 = new javax.swing.JPanel();
+        jRadioButton46 = new javax.swing.JRadioButton();
+        jRadioButton47 = new javax.swing.JRadioButton();
+        jRadioButton48 = new javax.swing.JRadioButton();
+        jRadioButton49 = new javax.swing.JRadioButton();
+        jRadioButton50 = new javax.swing.JRadioButton();
+        rbEstadoOrden1 = new javax.swing.JRadioButton();
+        rbEstadoOrden0 = new javax.swing.JRadioButton();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        tiMenu = new javax.swing.JMenu();
+        ordenesMenu = new javax.swing.JMenuItem();
+        equiposMenu = new javax.swing.JMenuItem();
+        repuestosMenu = new javax.swing.JMenuItem();
+        fallasMenu = new javax.swing.JMenuItem();
+        diagnosticosMenu = new javax.swing.JMenuItem();
+        rrhhMenu = new javax.swing.JMenu();
+        salir = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
 
-        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jLabel1.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Órdenes de Servicio");
+        getContentPane().add(jLabel1);
+        jLabel1.setBounds(0, 40, 1000, 50);
+
+        tabbedPane.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                tabbedPaneStateChanged(evt);
+            }
+        });
+
+        jPanel1.setLayout(null);
 
         jLabel4.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
         jLabel4.setText("Búsqueda por número de orden");
@@ -292,6 +343,8 @@ public class OrdenesFrm extends javax.swing.JFrame {
             public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
             }
         });
+        jPanel1.add(jLabel4);
+        jLabel4.setBounds(25, 30, 253, 30);
 
         inputBusqueda.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         inputBusqueda.addActionListener(new java.awt.event.ActionListener() {
@@ -299,6 +352,16 @@ public class OrdenesFrm extends javax.swing.JFrame {
                 inputBusquedaActionPerformed(evt);
             }
         });
+        inputBusqueda.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                inputBusquedaKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                inputBusquedaKeyTyped(evt);
+            }
+        });
+        jPanel1.add(inputBusqueda);
+        inputBusqueda.setBounds(305, 30, 200, 30);
 
         tblOrdenes.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         tblOrdenes.setModel(new javax.swing.table.DefaultTableModel(
@@ -325,37 +388,26 @@ public class OrdenesFrm extends javax.swing.JFrame {
             }
         });
         tblOrdenes.getTableHeader().setReorderingAllowed(false);
+        tblOrdenes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblOrdenesMouseClicked(evt);
+            }
+        });
         jScrollPane4.setViewportView(tblOrdenes);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 900, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addGap(30, 30, 30)
-                        .addComponent(inputBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(40, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(inputBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 2091, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(21, 21, 21))
-        );
+        jPanel1.add(jScrollPane4);
+        jScrollPane4.setBounds(25, 100, 900, 310);
 
-        jScrollPane1.setViewportView(jPanel1);
+        btnEditar.setText("Editar");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnEditar);
+        btnEditar.setBounds(400, 430, 150, 50);
 
-        tabbedPane.addTab("Consulta", jScrollPane1);
+        tabbedPane.addTab("Consulta", jPanel1);
 
         jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
@@ -364,9 +416,6 @@ public class OrdenesFrm extends javax.swing.JFrame {
                 jPanel2ComponentShown(evt);
             }
         });
-
-        jLabel60.setFont(new java.awt.Font("Franklin Gothic Book", 1, 20)); // NOI18N
-        jLabel60.setText("ORDEN DE SERVICIO");
 
         jLabel59.setFont(new java.awt.Font("Franklin Gothic Book", 1, 18)); // NOI18N
         jLabel59.setText("Plantel");
@@ -1016,6 +1065,11 @@ public class OrdenesFrm extends javax.swing.JFrame {
         jLabel87.setBounds(20, 80, 90, 15);
 
         btnCancelar1.setText("Cancelar");
+        btnCancelar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelar1ActionPerformed(evt);
+            }
+        });
 
         btnGuardar.setText("Guardar");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
@@ -1024,51 +1078,154 @@ public class OrdenesFrm extends javax.swing.JFrame {
             }
         });
 
+        jPanel22.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Estado", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Franklin Gothic Book", 1, 18))); // NOI18N
+        jPanel22.setLayout(null);
+
+        jPanel23.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tipo de mantenimiento", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Franklin Gothic Book", 1, 18))); // NOI18N
+        jPanel23.setLayout(null);
+
+        jRadioButton21.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
+        jRadioButton21.setText("Revisión");
+        jPanel23.add(jRadioButton21);
+        jRadioButton21.setBounds(730, 40, 100, 25);
+
+        jRadioButton22.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
+        jRadioButton22.setText("Preventivo programado");
+        jPanel23.add(jRadioButton22);
+        jRadioButton22.setBounds(20, 40, 180, 25);
+
+        jRadioButton23.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
+        jRadioButton23.setText("Preventivo no programado");
+        jPanel23.add(jRadioButton23);
+        jRadioButton23.setBounds(230, 40, 180, 25);
+
+        jRadioButton24.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
+        jRadioButton24.setText("Correctivo");
+        jPanel23.add(jRadioButton24);
+        jRadioButton24.setBounds(450, 40, 100, 25);
+
+        jRadioButton25.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
+        jRadioButton25.setText("Limpieza");
+        jPanel23.add(jRadioButton25);
+        jRadioButton25.setBounds(590, 40, 100, 25);
+
+        jPanel22.add(jPanel23);
+        jPanel23.setBounds(20, 980, 930, 90);
+
+        jPanel24.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tipo de mantenimiento", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Franklin Gothic Book", 1, 18))); // NOI18N
+        jPanel24.setLayout(null);
+
+        jRadioButton41.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
+        jRadioButton41.setText("Revisión");
+        jPanel24.add(jRadioButton41);
+        jRadioButton41.setBounds(730, 40, 100, 25);
+
+        jRadioButton42.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
+        jRadioButton42.setText("Preventivo programado");
+        jPanel24.add(jRadioButton42);
+        jRadioButton42.setBounds(20, 40, 180, 25);
+
+        jRadioButton43.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
+        jRadioButton43.setText("Preventivo no programado");
+        jPanel24.add(jRadioButton43);
+        jRadioButton43.setBounds(230, 40, 180, 25);
+
+        jRadioButton44.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
+        jRadioButton44.setText("Correctivo");
+        jPanel24.add(jRadioButton44);
+        jRadioButton44.setBounds(450, 40, 100, 25);
+
+        jRadioButton45.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
+        jRadioButton45.setText("Limpieza");
+        jPanel24.add(jRadioButton45);
+        jRadioButton45.setBounds(590, 40, 100, 25);
+
+        jPanel25.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tipo de mantenimiento", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Franklin Gothic Book", 1, 18))); // NOI18N
+        jPanel25.setLayout(null);
+
+        jRadioButton46.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
+        jRadioButton46.setText("Revisión");
+        jPanel25.add(jRadioButton46);
+        jRadioButton46.setBounds(730, 40, 100, 25);
+
+        jRadioButton47.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
+        jRadioButton47.setText("Preventivo programado");
+        jPanel25.add(jRadioButton47);
+        jRadioButton47.setBounds(20, 40, 180, 25);
+
+        jRadioButton48.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
+        jRadioButton48.setText("Preventivo no programado");
+        jPanel25.add(jRadioButton48);
+        jRadioButton48.setBounds(230, 40, 180, 25);
+
+        jRadioButton49.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
+        jRadioButton49.setText("Correctivo");
+        jPanel25.add(jRadioButton49);
+        jRadioButton49.setBounds(450, 40, 100, 25);
+
+        jRadioButton50.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
+        jRadioButton50.setText("Limpieza");
+        jPanel25.add(jRadioButton50);
+        jRadioButton50.setBounds(590, 40, 100, 25);
+
+        jPanel24.add(jPanel25);
+        jPanel25.setBounds(20, 980, 930, 90);
+
+        jPanel22.add(jPanel24);
+        jPanel24.setBounds(20, 980, 930, 90);
+
+        btnGroupEstadoOrden.add(rbEstadoOrden1);
+        rbEstadoOrden1.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
+        rbEstadoOrden1.setText("Finalizada");
+        jPanel22.add(rbEstadoOrden1);
+        rbEstadoOrden1.setBounds(240, 40, 220, 25);
+
+        btnGroupEstadoOrden.add(rbEstadoOrden0);
+        rbEstadoOrden0.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
+        rbEstadoOrden0.setSelected(true);
+        rbEstadoOrden0.setText("Pendiente");
+        jPanel22.add(rbEstadoOrden0);
+        rbEstadoOrden0.setBounds(20, 40, 200, 25);
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, 900, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addGap(20, 20, 20)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jPanel13, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jPanel12, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jPanel14, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                                            .addComponent(jLabel59, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
-                                            .addComponent(inputPlantel, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addComponent(jPanel9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addGap(15, 15, 15)
-                                    .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, 440, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, 900, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(20, 37, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(25, 25, 25)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, 900, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addGap(5, 5, 5)
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(jPanel13, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jPanel12, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jPanel14, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                                                    .addComponent(jLabel59, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                    .addComponent(inputPlantel, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addComponent(jPanel9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 440, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGap(15, 15, 15)
+                                            .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, 440, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(jPanel18, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 900, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jPanel22, javax.swing.GroupLayout.PREFERRED_SIZE, 900, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(25, 25, 25))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addComponent(btnCancelar1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(30, 30, 30)
                         .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(296, 296, 296))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel60)
-                        .addGap(357, 357, 357))))
+                        .addGap(301, 301, 301))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(25, 25, 25)
-                .addComponent(jLabel60)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(inputPlantel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel59))
@@ -1086,11 +1243,13 @@ public class OrdenesFrm extends javax.swing.JFrame {
                 .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
                 .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34)
+                .addGap(30, 30, 30)
+                .addComponent(jPanel22, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnCancelar1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(37, 37, 37))
+                .addGap(30, 30, 30))
         );
 
         jScrollPane2.setViewportView(jPanel2);
@@ -1100,52 +1259,70 @@ public class OrdenesFrm extends javax.swing.JFrame {
         getContentPane().add(tabbedPane);
         tabbedPane.setBounds(20, 110, 960, 530);
 
-        jLabel1.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Sistema de gestión empresarial");
-        getContentPane().add(jLabel1);
-        jLabel1.setBounds(0, 50, 1000, 40);
+        tiMenu.setText("TI");
+
+        ordenesMenu.setText("Órdenes");
+        tiMenu.add(ordenesMenu);
+
+        equiposMenu.setText("Equipos");
+        equiposMenu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                equiposMenuMouseClicked(evt);
+            }
+        });
+        equiposMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                equiposMenuActionPerformed(evt);
+            }
+        });
+        tiMenu.add(equiposMenu);
+
+        repuestosMenu.setText("Repuestos");
+        tiMenu.add(repuestosMenu);
+
+        fallasMenu.setText("Fallas");
+        tiMenu.add(fallasMenu);
+
+        diagnosticosMenu.setText("Diagnósticos");
+        tiMenu.add(diagnosticosMenu);
+
+        jMenuBar1.add(tiMenu);
+
+        rrhhMenu.setText("RRHH");
+        jMenuBar1.add(rrhhMenu);
+
+        salir.setText("Salir");
+        jMenuBar1.add(salir);
+
+        setJMenuBar(jMenuBar1);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void inputBusquedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputBusquedaActionPerformed
-    }//GEN-LAST:event_inputBusquedaActionPerformed
-
-    private void jLabel4AncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jLabel4AncestorAdded
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jLabel4AncestorAdded
 
     private void jPanel2ComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanel2ComponentShown
 
     }//GEN-LAST:event_jPanel2ComponentShown
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        Orden_Servicio orden = new Orden_Servicio();
-        
         OrdenesDAO ordenDAO = new OrdenesDAO();
         EmpleadoDAO empleadoDAO = new EmpleadoDAO();
         EquipoDAO equipoDAO = new EquipoDAO();
         TipoDAO tipoDAO = new TipoDAO();
-        DetalleFallaDAO detalleFallaDAO = new DetalleFallaDAO();
-        DetalleRepuestoDAO detalleRepuestoDAO = new DetalleRepuestoDAO();
-        DetalleDiagnosticoDAO detalleDiagnosticoDAO = new DetalleDiagnosticoDAO();
-        
         Detalle_Falla detalle_falla;
-        
         Detalle_Diagnostico detalle_diagnostico;
         Vector<Detalle_Falla> detalle_fallas = new Vector<Detalle_Falla>();
-        
         Vector<Detalle_Diagnostico> detalle_diagnosticos = new Vector<Detalle_Diagnostico>();
         
         Util u = new Util();
+        
+        if(orden == null) {
+            orden = new Orden_Servicio();
+        }
 
         if(validar()) {
             if(this.btnGuardar.getText().equals("Guardar")) {
                 id = u.idNext("Ordenes_Servicio", "id_ordenServicio");
-            } else {
-                id = orden.getId_ordenServicio();
-            }
+            } 
             
             orden.setPlantel(this.inputPlantel.getText());
             orden.setUsuario(usuario);
@@ -1170,6 +1347,7 @@ public class OrdenesFrm extends javax.swing.JFrame {
                 detalle_diagnostico = new Detalle_Diagnostico();
                 detalle_diagnostico.setId_diagnostico(diagnosticos.get(i).getId_diagnostico());
                 detalle_diagnostico.setOrden_servicio(id);
+                detalle_diagnosticos.add(detalle_diagnostico);
             }
             
             if(this.rbTipoMant1.isSelected()) {
@@ -1183,6 +1361,12 @@ public class OrdenesFrm extends javax.swing.JFrame {
             } else if(this.rbTipoMant5.isSelected()) {
                 orden.setTipoMant(tipoDAO.buscarTipo(5));
             }           
+            
+            if(this.rbEstadoOrden0.isSelected()) {
+                orden.setEstado(0);
+            } else if (this.rbEstadoOrden1.isSelected()) {
+                orden.setEstado(1);
+            }
  
             if(this.btnGuardar.getText().equals("Guardar")) {
                 orden.setId_ordenServicio(id);
@@ -1199,9 +1383,10 @@ public class OrdenesFrm extends javax.swing.JFrame {
             }
             
             limpiar();
-            this.tabbedPane.setSelectedIndex(0);
-            JOptionPane.showMessageDialog(this, "Orden registrada exitosamente.");
             this.poblarTabla(false, "");
+            this.tabbedPane.setSelectedIndex(0);
+            this.tabbedPane.setTitleAt(1, "Nueva");
+            JOptionPane.showMessageDialog(this, "Orden registrada exitosamente.");   
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
@@ -1406,6 +1591,152 @@ public class OrdenesFrm extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_inputPlantelActionPerformed
 
+    private void tabbedPaneStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabbedPaneStateChanged
+
+    }//GEN-LAST:event_tabbedPaneStateChanged
+
+    private void inputBusquedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputBusquedaActionPerformed
+
+    }//GEN-LAST:event_inputBusquedaActionPerformed
+
+    private void jLabel4AncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jLabel4AncestorAdded
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabel4AncestorAdded
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        this.tabbedPane.setSelectedIndex(1);
+        this.tabbedPane.setTitleAt(1, "Edición");
+        this.btnGuardar.setText("Actualizar");
+        
+        this.inputPlantel.setText(orden.getPlantel());
+        this.inputNombreUsuario.setText(usuario.getNombreCompleto());
+        this.inputAreaUsuario.setText(usuario.getArea());
+        
+        if(usuario.getTipo() == 0) {
+            this.rbTipoUsuario0.setSelected(true);
+        } else if (usuario.getTipo() == 1) {
+            this.rbTipoUsuario1.setSelected(true);   
+        }
+        
+        if(usuario.getEstado() == 0) {
+            this.rbEstadoUsuario0.setSelected(true);
+        } else if(usuario.getEstado() == 1) {
+            this.rbEstadoUsuario1.setSelected(true);
+        }        
+        
+        this.inputMarca.setText(equipo.getMarca());
+        this.inputModelo.setText(equipo.getModelo());
+        this.inputNroSerie.setText(equipo.getNum_serie());
+        
+        if(equipo.getEstado() == 0) {
+            this.rbEstadoEquipo0.setSelected(true);
+        } else if(equipo.getEstado() == 1) {
+            this.rbEstadoEquipo1.setSelected(true);
+        }
+        
+        dtmFallas.setRowCount(0);
+        for(int i = 0; i < fallas.size(); i++) {
+            Falla falla = fallas.get(i);
+            Vector vector = new Vector();
+            vector.add(falla.getId_falla());
+            vector.add(falla.getTipo_falla());
+            vector.add(falla.getFalla_desc());
+            dtmFallas.addRow(vector);
+        }
+        
+        RepuestoDAO repuestoDAO = new RepuestoDAO();
+        
+        dtmRepuestos.setRowCount(0);
+        for(int i = 0; i < detalle_repuestos.size(); i++) {
+            Detalle_Repuesto detalle_repuesto = detalle_repuestos.get(i);
+            Repuesto repuesto = repuestoDAO.buscarRepuesto(detalle_repuesto.getId_repuesto());
+            Vector vector = new Vector();
+            vector.add(detalle_repuesto.getId_repuesto());
+            vector.add(repuesto.getRep_desc());
+            vector.add(detalle_repuesto.getRep_cant());
+            vector.add(detalle_repuesto.getRep_tipo());
+            dtmRepuestos.addRow(vector);
+        }
+        
+        dtmDiagnosticos.setRowCount(0);
+        for(int i = 0; i < diagnosticos.size(); i++) {
+            Diagnostico diagnostico = diagnosticos.get(i);
+            Vector vector = new Vector();
+            vector.add(diagnostico.getId_diagnostico());
+            vector.add(diagnostico.getDiag_desc());
+            dtmDiagnosticos.addRow(vector);
+        }
+       
+        if(orden.getTipoMant().getId_tipoMant() == 1) {
+            this.rbTipoMant1.setSelected(true);
+        } else if(orden.getTipoMant().getId_tipoMant() == 2) {
+            this.rbTipoMant2.setSelected(true);
+        } else if(orden.getTipoMant().getId_tipoMant() == 3) {
+            this.rbTipoMant3.setSelected(true);
+        } else if(orden.getTipoMant().getId_tipoMant() == 4) {
+            this.rbTipoMant4.setSelected(true);
+        } else if(orden.getTipoMant().getId_tipoMant() == 5) {
+            this.rbTipoMant5.setSelected(true);
+        }
+        
+        this.inputObsRec.setText(orden.getObserRec());
+        this.inputObsDev.setText(orden.getObserDev());    
+        this.inputEmpRec.setText(empRec.getNombreCompleto());
+        this.inputEmpDev.setText(empDev.getNombreCompleto());
+        
+        if(orden.getEstado() == 0) {
+            this.rbEstadoOrden0.setSelected(true);
+        } else if(orden.getEstado() == 1) {
+            this.rbEstadoOrden1.setSelected(true);
+        }
+    }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void tblOrdenesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblOrdenesMouseClicked
+        int fila = this.tblOrdenes.getSelectedRow();
+        orden = ordenes.get(fila);
+        id = orden.getId_ordenServicio();
+        usuario = orden.getUsuario();
+        equipo = orden.getEquipo();
+        fallas = detalleFallaDAO.buscarDetalle(id);
+        repuestos = detalleRepuestoDAO.buscarRepuestos(id);
+        diagnosticos = detalleDiagnosticoDAO.buscarDetalle(id);
+        detalle_repuestos = detalleRepuestoDAO.buscarDetalle(id);
+        empRec = orden.getEmplRec();
+        empDev = orden.getEmplDev();
+    }//GEN-LAST:event_tblOrdenesMouseClicked
+
+    private void btnCancelar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelar1ActionPerformed
+        limpiar();
+        this.tabbedPane.setTitleAt(1, "Nueva");
+        this.tabbedPane.setSelectedIndex(0);
+    }//GEN-LAST:event_btnCancelar1ActionPerformed
+
+    private void equiposMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_equiposMenuActionPerformed
+        EquiposFrm equiposFrm = new EquiposFrm();
+        equiposFrm.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_equiposMenuActionPerformed
+
+    private void equiposMenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_equiposMenuMouseClicked
+        
+        
+    }//GEN-LAST:event_equiposMenuMouseClicked
+
+    private void inputBusquedaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inputBusquedaKeyTyped
+
+    }//GEN-LAST:event_inputBusquedaKeyTyped
+
+    private void inputBusquedaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inputBusquedaKeyReleased
+        dtmOrdenes.setRowCount(0);
+        
+        String filtro = inputBusqueda.getText();
+        if(filtro.isEmpty()) {
+            poblarTabla(false, "");
+        } else {
+            poblarTabla(true, filtro);
+        }
+    }//GEN-LAST:event_inputBusquedaKeyReleased
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscarDiagnosticos;
@@ -1414,13 +1745,18 @@ public class OrdenesFrm extends javax.swing.JFrame {
     private javax.swing.JButton btnBuscarRepuestos;
     private javax.swing.JButton btnBuscarUsuarios;
     private javax.swing.JButton btnCancelar1;
+    private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnEmpDev;
     private javax.swing.JButton btnEmpRec;
     private javax.swing.ButtonGroup btnGroupEstadoEquipo;
+    private javax.swing.ButtonGroup btnGroupEstadoOrden;
     private javax.swing.ButtonGroup btnGroupEstadoUsuario;
     private javax.swing.ButtonGroup btnGroupTipoMant;
     private javax.swing.ButtonGroup btnGroupTipoUsuario;
     private javax.swing.JButton btnGuardar;
+    private javax.swing.JMenuItem diagnosticosMenu;
+    private javax.swing.JMenuItem equiposMenu;
+    private javax.swing.JMenuItem fallasMenu;
     private javax.swing.JTextField inputAreaUsuario;
     private javax.swing.JTextField inputBusqueda;
     private javax.swing.JTextField inputEmpDev;
@@ -1445,7 +1781,6 @@ public class OrdenesFrm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel57;
     private javax.swing.JLabel jLabel58;
     private javax.swing.JLabel jLabel59;
-    private javax.swing.JLabel jLabel60;
     private javax.swing.JLabel jLabel74;
     private javax.swing.JLabel jLabel78;
     private javax.swing.JLabel jLabel79;
@@ -1457,6 +1792,7 @@ public class OrdenesFrm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel85;
     private javax.swing.JLabel jLabel86;
     private javax.swing.JLabel jLabel87;
+    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
@@ -1471,6 +1807,10 @@ public class OrdenesFrm extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel20;
     private javax.swing.JPanel jPanel21;
+    private javax.swing.JPanel jPanel22;
+    private javax.swing.JPanel jPanel23;
+    private javax.swing.JPanel jPanel24;
+    private javax.swing.JPanel jPanel25;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JRadioButton jRadioButton10;
     private javax.swing.JRadioButton jRadioButton11;
@@ -1483,6 +1823,11 @@ public class OrdenesFrm extends javax.swing.JFrame {
     private javax.swing.JRadioButton jRadioButton18;
     private javax.swing.JRadioButton jRadioButton19;
     private javax.swing.JRadioButton jRadioButton20;
+    private javax.swing.JRadioButton jRadioButton21;
+    private javax.swing.JRadioButton jRadioButton22;
+    private javax.swing.JRadioButton jRadioButton23;
+    private javax.swing.JRadioButton jRadioButton24;
+    private javax.swing.JRadioButton jRadioButton25;
     private javax.swing.JRadioButton jRadioButton26;
     private javax.swing.JRadioButton jRadioButton27;
     private javax.swing.JRadioButton jRadioButton28;
@@ -1498,18 +1843,30 @@ public class OrdenesFrm extends javax.swing.JFrame {
     private javax.swing.JRadioButton jRadioButton38;
     private javax.swing.JRadioButton jRadioButton39;
     private javax.swing.JRadioButton jRadioButton40;
+    private javax.swing.JRadioButton jRadioButton41;
+    private javax.swing.JRadioButton jRadioButton42;
+    private javax.swing.JRadioButton jRadioButton43;
+    private javax.swing.JRadioButton jRadioButton44;
+    private javax.swing.JRadioButton jRadioButton45;
+    private javax.swing.JRadioButton jRadioButton46;
+    private javax.swing.JRadioButton jRadioButton47;
+    private javax.swing.JRadioButton jRadioButton48;
+    private javax.swing.JRadioButton jRadioButton49;
+    private javax.swing.JRadioButton jRadioButton50;
     private javax.swing.JRadioButton jRadioButton6;
     private javax.swing.JRadioButton jRadioButton7;
     private javax.swing.JRadioButton jRadioButton8;
     private javax.swing.JRadioButton jRadioButton9;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JMenuItem ordenesMenu;
     private javax.swing.JRadioButton rbEstadoEquipo0;
     private javax.swing.JRadioButton rbEstadoEquipo1;
+    private javax.swing.JRadioButton rbEstadoOrden0;
+    private javax.swing.JRadioButton rbEstadoOrden1;
     private javax.swing.JRadioButton rbEstadoUsuario0;
     private javax.swing.JRadioButton rbEstadoUsuario1;
     private javax.swing.JRadioButton rbTipoMant1;
@@ -1519,10 +1876,14 @@ public class OrdenesFrm extends javax.swing.JFrame {
     private javax.swing.JRadioButton rbTipoMant5;
     private javax.swing.JRadioButton rbTipoUsuario0;
     private javax.swing.JRadioButton rbTipoUsuario1;
+    private javax.swing.JMenuItem repuestosMenu;
+    private javax.swing.JMenu rrhhMenu;
+    private javax.swing.JMenu salir;
     private javax.swing.JTabbedPane tabbedPane;
     private javax.swing.JTable tblDiagnosticos;
     private javax.swing.JTable tblFallas;
     private javax.swing.JTable tblOrdenes;
     private javax.swing.JTable tblRepuestos;
+    private javax.swing.JMenu tiMenu;
     // End of variables declaration//GEN-END:variables
 }

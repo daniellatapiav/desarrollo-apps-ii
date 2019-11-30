@@ -66,4 +66,35 @@ public class FallaDAO {
         
         return fallas;
     }
+    
+    public boolean registrarEquipo(Falla fall, String procedimiento) {
+        boolean sw = false;
+        dbBean db = new dbBean();
+        String sql = "";
+        if (procedimiento.toLowerCase().equals("insert")) {
+            sql = "INSERT INTO [dbo].[Fallas]([id_falla],[tipo_falla],[falla_desc])  "
+                    + " VALUES ("+fall.getId_falla()+",'"+fall.getTipo_falla()+"','"+fall.getFalla_desc()+"' )";
+        } else if (procedimiento.toLowerCase().equals("update")) {
+            sql = "UPDATE Fallas SET tipo_falla='"+fall.getTipo_falla()+"',falla_desc='"+fall.getFalla_desc()+"' "
+                    + " WHERE id_falla = " + fall.getId_falla();
+        }
+        
+        System.out.println(sql);
+        
+        try {
+            db.insUpd(sql);
+            sw = true;
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+        
+        try {
+            db.disconnect();
+            sw = true;
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return sw;
+    }
 }

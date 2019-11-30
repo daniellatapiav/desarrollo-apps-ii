@@ -4,11 +4,11 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/Users/daniellatapia/Documents/Studies/ESAN/DPA/2019-2/Desarrollo%20de%20Apps%20II/Integrador_Anampa_Tapia/src/UI/OrdenesFrm.java</file>
-            <file>file:/Users/daniellatapia/Documents/Studies/ESAN/DPA/2019-2/Desarrollo%20de%20Apps%20II/Integrador_Anampa_Tapia/src/UI/RepuestosDlg.java</file>
+            <file>file:/Users/daniellatapia/Documents/Studies/ESAN/DPA/2019-2/Desarrollo%20de%20Apps%20II/Integrador_Anampa_Tapia/src/UI/DiagnosticosFrm.java</file>
             <file>file:/Users/daniellatapia/Documents/Studies/ESAN/DPA/2019-2/Desarrollo%20de%20Apps%20II/Integrador_Anampa_Tapia/src/DAO/RepuestoDAO.java</file>
-            <file>file:/Users/daniellatapia/Documents/Studies/ESAN/DPA/2019-2/Desarrollo%20de%20Apps%20II/Integrador_Anampa_Tapia/src/UI/UsuariosDlg.java</file>
-            <file>file:/Users/daniellatapia/Documents/Studies/ESAN/DPA/2019-2/Desarrollo%20de%20Apps%20II/Integrador_Anampa_Tapia/src/UI/FallasDlg.java</file>
-            <file>file:/Users/daniellatapia/Documents/Studies/ESAN/DPA/2019-2/Desarrollo%20de%20Apps%20II/Integrador_Anampa_Tapia/src/UI/EquiposDlg.java</file>
+            <file>file:/Users/daniellatapia/Documents/Studies/ESAN/DPA/2019-2/Desarrollo%20de%20Apps%20II/Integrador_Anampa_Tapia/src/UI/EmpleadosFrm.java</file>
+            <file>file:/Users/daniellatapia/Documents/Studies/ESAN/DPA/2019-2/Desarrollo%20de%20Apps%20II/Integrador_Anampa_Tapia/src/UI/EquiposFrm.java</file>
+            <file>file:/Users/daniellatapia/Documents/Studies/ESAN/DPA/2019-2/Desarrollo%20de%20Apps%20II/Integrador_Anampa_Tapia/src/UI/FallasFrm.java</file>
         </group>
     </open-files>
 </project-private>

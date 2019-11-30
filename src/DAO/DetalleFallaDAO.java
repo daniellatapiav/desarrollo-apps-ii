@@ -62,7 +62,7 @@ public class DetalleFallaDAO {
                     + id_orden + ", " + id_falla + ")";
             } else if (procedimiento.toLowerCase().equals("u")) {
                 sql = "UPDATE Detalle_Fallas SET id_ordenServicio = " + id_orden + ", id_falla = " + id_falla
-                        + " WHERE id_ordenServicio = " + id_orden + "AND id_falla = " + id_falla;
+                        + " WHERE id_ordenServicio = " + id_orden + " AND id_falla = " + id_falla;
             }
             
             System.out.println(sql);

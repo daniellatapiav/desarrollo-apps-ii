@@ -172,16 +172,16 @@ public class EquiposDlg extends javax.swing.JDialog {
 
     private void tblEquiposMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblEquiposMouseClicked
         int fila;
+        
         fila = this.tblEquipos.getSelectedRow();
-     
+
         equipo = new Equipo();
         equipo.setId_equipo(Integer.parseInt(dtm.getValueAt(fila, 0).toString()));
-        //equipo.setUsuario(equipos.get(fila).getUsuario());
+        equipo.setUsuario(equipos.get(fila).getUsuario());
         equipo.setMarca(dtm.getValueAt(fila, 2).toString());
         equipo.setModelo(dtm.getValueAt(fila, 3).toString());
         equipo.setNum_serie(dtm.getValueAt(fila, 4).toString());
         equipo.setEstado(Integer.parseInt(dtm.getValueAt(fila, 5).toString()));
-        dispose();
     }
 
     public Equipo getEquipo() {

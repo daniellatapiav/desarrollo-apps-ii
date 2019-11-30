@@ -77,4 +77,39 @@ public class EquipoDAO {
         
         return equipos;
     }
+    
+    
+    public boolean registrarEquipo(Equipo equipo, String procedimiento) {
+        boolean sw = false;
+        dbBean db = new dbBean();
+        String sql = "";
+        
+        if (procedimiento.toLowerCase().equals("insert")) {
+            sql = "INSERT INTO Equipos VALUES("
+                    + equipo.getId_equipo() + ", " + equipo.getUsuario().getId_empleado() + ", '" + equipo.getMarca() + "', '"
+                    + equipo.getModelo() + "', '" + equipo.getNum_serie() + "', " + equipo.getEstado() + ")";
+        } else if(procedimiento.toLowerCase().equals("update")) {
+            sql = "UPDATE Equipos SET id_usuario = " + equipo.getUsuario().getId_empleado() + ", marca = '" + equipo.getMarca()
+                    + "', modelo = '" + equipo.getModelo() + "', num_serie = '" + equipo.getNum_serie() + "', estado = " + equipo.getEstado()
+                    + " WHERE id_equipo = " + equipo.getId_equipo();
+        }
+        
+        System.out.println(sql);
+        
+        try {
+            db.insUpd(sql);
+            sw = true;
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+        
+        try {
+            db.disconnect();
+            sw = true;
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return sw;
+    }
 }

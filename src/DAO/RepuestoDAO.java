@@ -66,4 +66,31 @@ public class RepuestoDAO {
         
         return repuestos;
     }
+    
+    public boolean registrarRespuesto(Repuesto var, String procedimiento) {
+        boolean sw = false;
+        dbBean db = new dbBean();
+        String sql = "";
+            if (procedimiento.toLowerCase().equals("insert")) {
+            sql = "INSERT INTO [dbo].[Repuestos]([id_repuesto],[rep_desc],[costo_unitario])  "
+                    + " VALUES ("+var.getId_repuesto()+",'"+var.getRep_desc()+"',"+var.getCosto_unitario()+" )";
+            } else if (procedimiento.toLowerCase().equals("update")) {
+                sql = "UPDATE Repuestos SET rep_desc='"+var.getRep_desc()+"',costo_unitario="+var.getCosto_unitario()+" "
+                        + " WHERE id_repuesto = " + var.getId_repuesto();
+            }
+            System.out.println(sql);
+            try {
+                db.insUpd(sql);
+                sw = true;
+            } catch(SQLException e) {
+                e.printStackTrace();
+            }
+        try {
+            db.disconnect();
+            sw = true;
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+        return sw;
+    }
 }

@@ -74,4 +74,34 @@ public class EmpleadoDAO {
         return empleados;
     }
     
+    public boolean registrarEmpleado(Empleado emp, String procedimiento) {
+        boolean sw = false;
+        dbBean db = new dbBean();
+        String sql = "";
+        if (procedimiento.toLowerCase().equals("insert")) {
+            sql = "INSERT INTO Empleados([id_empleado],[apellidos],[nombre],[tipo],[area],[estado]) "
+                    + "VALUES("+emp.getId_empleado()+",'"+emp.getApellidos()+"','"+emp.getNombres()+"',"+emp.getTipo()+",'"+emp.getArea()+"',"+emp.getEstado()+" )";
+        } else if (procedimiento.toLowerCase().equals("update")) {
+            sql = "UPDATE Empleados SET apellidos='"+emp.getApellidos()+"',nombre='"+emp.getNombres()+"',tipo="+emp.getTipo()+",area='"+emp.getArea()+"',estado="+emp.getEstado()+" "
+                    + " WHERE id_empleado = " + emp.getId_empleado();
+        }
+        
+        System.out.println(sql);
+        
+        try {
+            db.insUpd(sql);
+            sw = true;
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+        
+        try {
+            db.disconnect();
+            sw = true;
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return sw;
+    }
 }
