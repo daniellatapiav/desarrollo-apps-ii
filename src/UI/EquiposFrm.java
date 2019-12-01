@@ -99,7 +99,7 @@ public class EquiposFrm extends javax.swing.JFrame {
         tblEquipos = new javax.swing.JTable();
         jLabel8 = new javax.swing.JLabel();
         txtBusq = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
+        btnEditar = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -123,7 +123,9 @@ public class EquiposFrm extends javax.swing.JFrame {
         fallasMenu = new javax.swing.JMenuItem();
         diagnosticosMenu = new javax.swing.JMenuItem();
         rrhhMenu = new javax.swing.JMenu();
+        empleadosMenu = new javax.swing.JMenuItem();
         salir = new javax.swing.JMenu();
+        salirMenu = new javax.swing.JMenuItem();
 
         getContentPane().setLayout(null);
 
@@ -197,9 +199,14 @@ public class EquiposFrm extends javax.swing.JFrame {
         jPanel3.add(txtBusq);
         txtBusq.setBounds(305, 30, 200, 30);
 
-        jButton2.setText("Editar");
-        jPanel3.add(jButton2);
-        jButton2.setBounds(400, 430, 150, 50);
+        btnEditar.setText("Editar");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
+        jPanel3.add(btnEditar);
+        btnEditar.setBounds(400, 430, 150, 50);
 
         jTabbedPane1.addTab("Consulta", jPanel3);
 
@@ -207,15 +214,15 @@ public class EquiposFrm extends javax.swing.JFrame {
 
         jLabel3.setText("Marca");
         jPanel4.add(jLabel3);
-        jLabel3.setBounds(30, 80, 100, 30);
+        jLabel3.setBounds(25, 80, 100, 30);
 
         jLabel4.setText("Modelo");
         jPanel4.add(jLabel4);
-        jLabel4.setBounds(30, 130, 100, 30);
+        jLabel4.setBounds(25, 130, 100, 30);
 
         jLabel5.setText("Estado");
         jPanel4.add(jLabel5);
-        jLabel5.setBounds(30, 230, 100, 30);
+        jLabel5.setBounds(25, 230, 100, 30);
 
         btnRegistrar.setText("Registrar");
         btnRegistrar.addActionListener(new java.awt.event.ActionListener() {
@@ -251,7 +258,7 @@ public class EquiposFrm extends javax.swing.JFrame {
 
         jLabel7.setText("Nro. de serie");
         jPanel4.add(jLabel7);
-        jLabel7.setBounds(30, 180, 100, 30);
+        jLabel7.setBounds(25, 180, 100, 30);
         jPanel4.add(txtNroSerie);
         txtNroSerie.setBounds(160, 180, 250, 30);
 
@@ -275,7 +282,7 @@ public class EquiposFrm extends javax.swing.JFrame {
 
         jLabel6.setText("Usuario");
         jPanel4.add(jLabel6);
-        jLabel6.setBounds(30, 30, 100, 30);
+        jLabel6.setBounds(25, 30, 100, 30);
 
         jTabbedPane1.addTab("Nuevo", jPanel4);
 
@@ -291,26 +298,84 @@ public class EquiposFrm extends javax.swing.JFrame {
         tiMenu.setText("TI");
 
         ordenesMenu.setText("Órdenes");
+        ordenesMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ordenesMenuActionPerformed(evt);
+            }
+        });
         tiMenu.add(ordenesMenu);
 
         equiposMenu.setText("Equipos");
+        equiposMenu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                equiposMenuMouseClicked(evt);
+            }
+        });
+        equiposMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                equiposMenuActionPerformed(evt);
+            }
+        });
         tiMenu.add(equiposMenu);
 
         repuestosMenu.setText("Repuestos");
+        repuestosMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                repuestosMenuActionPerformed(evt);
+            }
+        });
         tiMenu.add(repuestosMenu);
 
         fallasMenu.setText("Fallas");
+        fallasMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fallasMenuActionPerformed(evt);
+            }
+        });
         tiMenu.add(fallasMenu);
 
         diagnosticosMenu.setText("Diagnósticos");
+        diagnosticosMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                diagnosticosMenuActionPerformed(evt);
+            }
+        });
         tiMenu.add(diagnosticosMenu);
 
         jMenuBar1.add(tiMenu);
 
         rrhhMenu.setText("RRHH");
+        rrhhMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rrhhMenuActionPerformed(evt);
+            }
+        });
+
+        empleadosMenu.setText("Empleados");
+        empleadosMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                empleadosMenuActionPerformed(evt);
+            }
+        });
+        rrhhMenu.add(empleadosMenu);
+
         jMenuBar1.add(rrhhMenu);
 
         salir.setText("Salir");
+        salir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                salirActionPerformed(evt);
+            }
+        });
+
+        salirMenu.setText("Cerrar sesión");
+        salirMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                salirMenuActionPerformed(evt);
+            }
+        });
+        salir.add(salirMenu);
+
         jMenuBar1.add(salir);
 
         setJMenuBar(jMenuBar1);
@@ -320,15 +385,15 @@ public class EquiposFrm extends javax.swing.JFrame {
 
     private void tblEquiposMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblEquiposMouseClicked
         if(evt.getClickCount()==1){
-            jTabbedPane1.setSelectedIndex(1);
             llenaModifica();
         }
     }//GEN-LAST:event_tblEquiposMouseClicked
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
         String proc = btnRegistrar.getText();
-        int id = 0, est, tipo;
+        int est;
         String pr = "";
+        
         if(valida() == true) {
             Util u = new Util();
             
@@ -358,6 +423,8 @@ public class EquiposFrm extends javax.swing.JFrame {
             limpiaControles();
             dtm.setRowCount(0);
             llenaTabla(false, "");
+            jTabbedPane1.setSelectedIndex(0);
+            JOptionPane.showMessageDialog(this, "Equipo registrado exitosamente.");
         }
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
@@ -408,10 +475,62 @@ public class EquiposFrm extends javax.swing.JFrame {
             llenaTabla(true, filtro);
         }
     }//GEN-LAST:event_txtBusqKeyReleased
-    
-    public Equipo devProd() {
-        return this.equipo;
-    }
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        jTabbedPane1.setSelectedIndex(1);
+    }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void ordenesMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ordenesMenuActionPerformed
+        OrdenesFrm ordenesFrm = new OrdenesFrm();
+        ordenesFrm.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_ordenesMenuActionPerformed
+
+    private void equiposMenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_equiposMenuMouseClicked
+
+    }//GEN-LAST:event_equiposMenuMouseClicked
+
+    private void equiposMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_equiposMenuActionPerformed
+        EquiposFrm equiposFrm = new EquiposFrm();
+        equiposFrm.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_equiposMenuActionPerformed
+
+    private void repuestosMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_repuestosMenuActionPerformed
+        RepuestosFrm repuestosFrm = new RepuestosFrm();
+        repuestosFrm.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_repuestosMenuActionPerformed
+
+    private void fallasMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fallasMenuActionPerformed
+        FallasFrm fallasFrm = new FallasFrm();
+        fallasFrm.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_fallasMenuActionPerformed
+
+    private void diagnosticosMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_diagnosticosMenuActionPerformed
+        DiagnosticosFrm diagnosticosFrm = new DiagnosticosFrm();
+        diagnosticosFrm.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_diagnosticosMenuActionPerformed
+
+    private void empleadosMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empleadosMenuActionPerformed
+        EmpleadosFrm empleadosFrm = new EmpleadosFrm();
+        empleadosFrm.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_empleadosMenuActionPerformed
+
+    private void rrhhMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rrhhMenuActionPerformed
+
+    }//GEN-LAST:event_rrhhMenuActionPerformed
+
+    private void salirMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salirMenuActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_salirMenuActionPerformed
+
+    private void salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salirActionPerformed
+
+    }//GEN-LAST:event_salirActionPerformed
     
     private void llenaTabla(boolean swr, String cadr) {
          Vector<Equipo> equDao =equiDAO.listarEquipos(swr, cadr);
@@ -430,8 +549,6 @@ public class EquiposFrm extends javax.swing.JFrame {
     }
     
     private void llenaModifica(){
-        int est;
-        String cadX;
         int fila = tblEquipos.getSelectedRow();
         id = Integer.parseInt((dtm.getValueAt(fila, 0)).toString().trim());
        
@@ -444,14 +561,15 @@ public class EquiposFrm extends javax.swing.JFrame {
         btnRegistrar.setText("Actualizar");
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnRegistrar;
     private javax.swing.JComboBox cmbEstado;
     private javax.swing.JMenuItem diagnosticosMenu;
+    private javax.swing.JMenuItem empleadosMenu;
     private javax.swing.JMenuItem equiposMenu;
     private javax.swing.JMenuItem fallasMenu;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -468,6 +586,7 @@ public class EquiposFrm extends javax.swing.JFrame {
     private javax.swing.JMenuItem repuestosMenu;
     private javax.swing.JMenu rrhhMenu;
     private javax.swing.JMenu salir;
+    private javax.swing.JMenuItem salirMenu;
     private javax.swing.JTable tblEquipos;
     private javax.swing.JMenu tiMenu;
     private javax.swing.JTextField txtBusq;

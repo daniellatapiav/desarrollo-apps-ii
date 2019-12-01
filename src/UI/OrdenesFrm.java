@@ -313,7 +313,9 @@ public class OrdenesFrm extends javax.swing.JFrame {
         fallasMenu = new javax.swing.JMenuItem();
         diagnosticosMenu = new javax.swing.JMenuItem();
         rrhhMenu = new javax.swing.JMenu();
+        empleadosMenu = new javax.swing.JMenuItem();
         salir = new javax.swing.JMenu();
+        salirMenu = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
@@ -1262,6 +1264,11 @@ public class OrdenesFrm extends javax.swing.JFrame {
         tiMenu.setText("TI");
 
         ordenesMenu.setText("Órdenes");
+        ordenesMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ordenesMenuActionPerformed(evt);
+            }
+        });
         tiMenu.add(ordenesMenu);
 
         equiposMenu.setText("Equipos");
@@ -1278,20 +1285,63 @@ public class OrdenesFrm extends javax.swing.JFrame {
         tiMenu.add(equiposMenu);
 
         repuestosMenu.setText("Repuestos");
+        repuestosMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                repuestosMenuActionPerformed(evt);
+            }
+        });
         tiMenu.add(repuestosMenu);
 
         fallasMenu.setText("Fallas");
+        fallasMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fallasMenuActionPerformed(evt);
+            }
+        });
         tiMenu.add(fallasMenu);
 
         diagnosticosMenu.setText("Diagnósticos");
+        diagnosticosMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                diagnosticosMenuActionPerformed(evt);
+            }
+        });
         tiMenu.add(diagnosticosMenu);
 
         jMenuBar1.add(tiMenu);
 
         rrhhMenu.setText("RRHH");
+        rrhhMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rrhhMenuActionPerformed(evt);
+            }
+        });
+
+        empleadosMenu.setText("Empleados");
+        empleadosMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                empleadosMenuActionPerformed(evt);
+            }
+        });
+        rrhhMenu.add(empleadosMenu);
+
         jMenuBar1.add(rrhhMenu);
 
         salir.setText("Salir");
+        salir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                salirActionPerformed(evt);
+            }
+        });
+
+        salirMenu.setText("Cerrar sesión");
+        salirMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                salirMenuActionPerformed(evt);
+            }
+        });
+        salir.add(salirMenu);
+
         jMenuBar1.add(salir);
 
         setJMenuBar(jMenuBar1);
@@ -1737,6 +1787,48 @@ public class OrdenesFrm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_inputBusquedaKeyReleased
 
+    private void repuestosMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_repuestosMenuActionPerformed
+        RepuestosFrm repuestosFrm = new RepuestosFrm();
+        repuestosFrm.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_repuestosMenuActionPerformed
+
+    private void fallasMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fallasMenuActionPerformed
+        FallasFrm fallasFrm = new FallasFrm();
+        fallasFrm.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_fallasMenuActionPerformed
+
+    private void diagnosticosMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_diagnosticosMenuActionPerformed
+        DiagnosticosFrm diagnosticosFrm = new DiagnosticosFrm();
+        diagnosticosFrm.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_diagnosticosMenuActionPerformed
+
+    private void salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salirActionPerformed
+
+    }//GEN-LAST:event_salirActionPerformed
+
+    private void rrhhMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rrhhMenuActionPerformed
+
+    }//GEN-LAST:event_rrhhMenuActionPerformed
+
+    private void empleadosMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empleadosMenuActionPerformed
+        EmpleadosFrm empleadosFrm = new EmpleadosFrm();
+        empleadosFrm.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_empleadosMenuActionPerformed
+
+    private void salirMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salirMenuActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_salirMenuActionPerformed
+
+    private void ordenesMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ordenesMenuActionPerformed
+        OrdenesFrm ordenesFrm = new OrdenesFrm();
+        ordenesFrm.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_ordenesMenuActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscarDiagnosticos;
@@ -1755,6 +1847,7 @@ public class OrdenesFrm extends javax.swing.JFrame {
     private javax.swing.ButtonGroup btnGroupTipoUsuario;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JMenuItem diagnosticosMenu;
+    private javax.swing.JMenuItem empleadosMenu;
     private javax.swing.JMenuItem equiposMenu;
     private javax.swing.JMenuItem fallasMenu;
     private javax.swing.JTextField inputAreaUsuario;
@@ -1879,6 +1972,7 @@ public class OrdenesFrm extends javax.swing.JFrame {
     private javax.swing.JMenuItem repuestosMenu;
     private javax.swing.JMenu rrhhMenu;
     private javax.swing.JMenu salir;
+    private javax.swing.JMenuItem salirMenu;
     private javax.swing.JTabbedPane tabbedPane;
     private javax.swing.JTable tblDiagnosticos;
     private javax.swing.JTable tblFallas;
