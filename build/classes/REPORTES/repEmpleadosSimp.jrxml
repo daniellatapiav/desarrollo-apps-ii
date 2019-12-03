@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9abc123f-289a-4561-b96b-d610e9c21ef5">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT
+     Empleados.`id_empleado` AS Empleados_id_empleado,
+     Empleados.`apellidos` AS Empleados_apellidos,
+     Empleados.`nombre` AS Empleados_nombre,
+     Empleados.`tipo` AS Empleados_tipo,
+     Empleados.`area` AS Empleados_area,
+     Empleados.`estado` AS Empleados_estado
+FROM
+     `Empleados` Empleados]]>
+	</queryString>
+	<field name="Empleados_id_empleado" class="java.lang.Integer"/>
+	<field name="Empleados_apellidos" class="java.lang.String"/>
+	<field name="Empleados_nombre" class="java.lang.String"/>
+	<field name="Empleados_tipo" class="java.lang.Integer"/>
+	<field name="Empleados_area" class="java.lang.String"/>
+	<field name="Empleados_estado" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="151" y="40" width="263" height="26" uuid="884e8d8f-f713-4b1f-bec0-3a7cc8355ea0"/>
+				<textElement textAlignment="Center">
+					<font size="18" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[REPORTE DE EMPLEADOS]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="21" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="20" uuid="fe9e6a32-b7db-46e2-8ed3-04525b8cd01c"/>
+				<textElement>
+					<font isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Registro]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="151" y="0" width="100" height="20" uuid="9a551cae-9497-4514-8903-470312bd290e"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombres]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="314" y="1" width="100" height="20" uuid="75a13a26-5188-4d94-a3de-ad8f662dbb9a"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Apellidos]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="22" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="142" height="20" uuid="f1b0e67f-f123-451e-afd3-735b7bdfb15d"/>
+				<textFieldExpression><![CDATA[$F{Empleados_id_empleado}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="151" y="0" width="152" height="20" uuid="f4d6f74d-84e4-4273-96ce-739d2d06d8b5"/>
+				<textFieldExpression><![CDATA[$F{Empleados_nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="314" y="0" width="146" height="20" uuid="bb1568a9-b90f-4636-9da7-93d950dbe584"/>
+				<textFieldExpression><![CDATA[$F{Empleados_apellidos}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

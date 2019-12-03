@@ -4,11 +4,16 @@ import BEAN.*;
 import DAO.*;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.sql.SQLException;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
 import util.Util;
+import util.dbBean;
 
 public class OrdenesFrm extends javax.swing.JFrame {
     DefaultTableModel dtmOrdenes, dtmFallas, dtmRepuestos, dtmDiagnosticos;
@@ -173,6 +178,7 @@ public class OrdenesFrm extends javax.swing.JFrame {
         btnGroupEstadoEquipo = new javax.swing.ButtonGroup();
         btnGroupTipoMant = new javax.swing.ButtonGroup();
         btnGroupEstadoOrden = new javax.swing.ButtonGroup();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jLabel1 = new javax.swing.JLabel();
         tabbedPane = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
@@ -314,8 +320,13 @@ public class OrdenesFrm extends javax.swing.JFrame {
         diagnosticosMenu = new javax.swing.JMenuItem();
         rrhhMenu = new javax.swing.JMenu();
         empleadosMenu = new javax.swing.JMenuItem();
+        reportesMenu = new javax.swing.JMenu();
+        rPersonalMenu = new javax.swing.JMenuItem();
+        rOrdenesMenu = new javax.swing.JMenuItem();
         salir = new javax.swing.JMenu();
         salirMenu = new javax.swing.JMenuItem();
+
+        jMenuItem1.setText("jMenuItem1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
@@ -337,10 +348,10 @@ public class OrdenesFrm extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
         jLabel4.setText("Búsqueda por número de orden");
         jLabel4.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
                 jLabel4AncestorAdded(evt);
-            }
-            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
             }
             public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
             }
@@ -784,31 +795,31 @@ public class OrdenesFrm extends javax.swing.JFrame {
         rbTipoMant5.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
         rbTipoMant5.setText("Revisión");
         jPanel18.add(rbTipoMant5);
-        rbTipoMant5.setBounds(770, 40, 100, 25);
+        rbTipoMant5.setBounds(770, 40, 100, 23);
 
         btnGroupTipoMant.add(rbTipoMant1);
         rbTipoMant1.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
         rbTipoMant1.setText("Preventivo programado");
         jPanel18.add(rbTipoMant1);
-        rbTipoMant1.setBounds(20, 40, 200, 25);
+        rbTipoMant1.setBounds(20, 40, 200, 23);
 
         btnGroupTipoMant.add(rbTipoMant2);
         rbTipoMant2.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
         rbTipoMant2.setText("Preventivo no programado");
         jPanel18.add(rbTipoMant2);
-        rbTipoMant2.setBounds(240, 40, 220, 25);
+        rbTipoMant2.setBounds(240, 40, 220, 23);
 
         btnGroupTipoMant.add(rbTipoMant3);
         rbTipoMant3.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
         rbTipoMant3.setText("Correctivo");
         jPanel18.add(rbTipoMant3);
-        rbTipoMant3.setBounds(490, 40, 120, 25);
+        rbTipoMant3.setBounds(490, 40, 120, 23);
 
         btnGroupTipoMant.add(rbTipoMant4);
         rbTipoMant4.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
         rbTipoMant4.setText("Limpieza");
         jPanel18.add(rbTipoMant4);
-        rbTipoMant4.setBounds(630, 40, 100, 25);
+        rbTipoMant4.setBounds(630, 40, 100, 23);
 
         jPanel19.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tipo de mantenimiento", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Franklin Gothic Book", 1, 18))); // NOI18N
         jPanel19.setLayout(null);
@@ -816,27 +827,27 @@ public class OrdenesFrm extends javax.swing.JFrame {
         jRadioButton26.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
         jRadioButton26.setText("Revisión");
         jPanel19.add(jRadioButton26);
-        jRadioButton26.setBounds(730, 40, 100, 25);
+        jRadioButton26.setBounds(730, 40, 100, 23);
 
         jRadioButton27.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
         jRadioButton27.setText("Preventivo programado");
         jPanel19.add(jRadioButton27);
-        jRadioButton27.setBounds(20, 40, 180, 25);
+        jRadioButton27.setBounds(20, 40, 180, 23);
 
         jRadioButton28.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
         jRadioButton28.setText("Preventivo no programado");
         jPanel19.add(jRadioButton28);
-        jRadioButton28.setBounds(230, 40, 180, 25);
+        jRadioButton28.setBounds(230, 40, 180, 23);
 
         jRadioButton29.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
         jRadioButton29.setText("Correctivo");
         jPanel19.add(jRadioButton29);
-        jRadioButton29.setBounds(450, 40, 100, 25);
+        jRadioButton29.setBounds(450, 40, 100, 23);
 
         jRadioButton30.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
         jRadioButton30.setText("Limpieza");
         jPanel19.add(jRadioButton30);
-        jRadioButton30.setBounds(590, 40, 100, 25);
+        jRadioButton30.setBounds(590, 40, 100, 23);
 
         jPanel18.add(jPanel19);
         jPanel19.setBounds(20, 980, 930, 90);
@@ -847,27 +858,27 @@ public class OrdenesFrm extends javax.swing.JFrame {
         jRadioButton31.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
         jRadioButton31.setText("Revisión");
         jPanel20.add(jRadioButton31);
-        jRadioButton31.setBounds(730, 40, 100, 25);
+        jRadioButton31.setBounds(730, 40, 100, 23);
 
         jRadioButton32.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
         jRadioButton32.setText("Preventivo programado");
         jPanel20.add(jRadioButton32);
-        jRadioButton32.setBounds(20, 40, 180, 25);
+        jRadioButton32.setBounds(20, 40, 180, 23);
 
         jRadioButton33.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
         jRadioButton33.setText("Preventivo no programado");
         jPanel20.add(jRadioButton33);
-        jRadioButton33.setBounds(230, 40, 180, 25);
+        jRadioButton33.setBounds(230, 40, 180, 23);
 
         jRadioButton34.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
         jRadioButton34.setText("Correctivo");
         jPanel20.add(jRadioButton34);
-        jRadioButton34.setBounds(450, 40, 100, 25);
+        jRadioButton34.setBounds(450, 40, 100, 23);
 
         jRadioButton35.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
         jRadioButton35.setText("Limpieza");
         jPanel20.add(jRadioButton35);
-        jRadioButton35.setBounds(590, 40, 100, 25);
+        jRadioButton35.setBounds(590, 40, 100, 23);
 
         jPanel21.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tipo de mantenimiento", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Franklin Gothic Book", 1, 18))); // NOI18N
         jPanel21.setLayout(null);
@@ -875,27 +886,27 @@ public class OrdenesFrm extends javax.swing.JFrame {
         jRadioButton36.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
         jRadioButton36.setText("Revisión");
         jPanel21.add(jRadioButton36);
-        jRadioButton36.setBounds(730, 40, 100, 25);
+        jRadioButton36.setBounds(730, 40, 100, 23);
 
         jRadioButton37.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
         jRadioButton37.setText("Preventivo programado");
         jPanel21.add(jRadioButton37);
-        jRadioButton37.setBounds(20, 40, 180, 25);
+        jRadioButton37.setBounds(20, 40, 180, 23);
 
         jRadioButton38.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
         jRadioButton38.setText("Preventivo no programado");
         jPanel21.add(jRadioButton38);
-        jRadioButton38.setBounds(230, 40, 180, 25);
+        jRadioButton38.setBounds(230, 40, 180, 23);
 
         jRadioButton39.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
         jRadioButton39.setText("Correctivo");
         jPanel21.add(jRadioButton39);
-        jRadioButton39.setBounds(450, 40, 100, 25);
+        jRadioButton39.setBounds(450, 40, 100, 23);
 
         jRadioButton40.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
         jRadioButton40.setText("Limpieza");
         jPanel21.add(jRadioButton40);
-        jRadioButton40.setBounds(590, 40, 100, 25);
+        jRadioButton40.setBounds(590, 40, 100, 23);
 
         jPanel20.add(jPanel21);
         jPanel21.setBounds(20, 980, 930, 90);
@@ -912,27 +923,27 @@ public class OrdenesFrm extends javax.swing.JFrame {
         jRadioButton6.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
         jRadioButton6.setText("Revisión");
         jPanel15.add(jRadioButton6);
-        jRadioButton6.setBounds(730, 40, 100, 25);
+        jRadioButton6.setBounds(730, 40, 100, 23);
 
         jRadioButton7.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
         jRadioButton7.setText("Preventivo programado");
         jPanel15.add(jRadioButton7);
-        jRadioButton7.setBounds(20, 40, 180, 25);
+        jRadioButton7.setBounds(20, 40, 180, 23);
 
         jRadioButton8.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
         jRadioButton8.setText("Preventivo no programado");
         jPanel15.add(jRadioButton8);
-        jRadioButton8.setBounds(230, 40, 180, 25);
+        jRadioButton8.setBounds(230, 40, 180, 23);
 
         jRadioButton9.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
         jRadioButton9.setText("Correctivo");
         jPanel15.add(jRadioButton9);
-        jRadioButton9.setBounds(450, 40, 100, 25);
+        jRadioButton9.setBounds(450, 40, 100, 23);
 
         jRadioButton10.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
         jRadioButton10.setText("Limpieza");
         jPanel15.add(jRadioButton10);
-        jRadioButton10.setBounds(590, 40, 100, 25);
+        jRadioButton10.setBounds(590, 40, 100, 23);
 
         jPanel11.add(jPanel15);
         jPanel15.setBounds(20, 980, 930, 90);
@@ -943,27 +954,27 @@ public class OrdenesFrm extends javax.swing.JFrame {
         jRadioButton11.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
         jRadioButton11.setText("Revisión");
         jPanel16.add(jRadioButton11);
-        jRadioButton11.setBounds(730, 40, 100, 25);
+        jRadioButton11.setBounds(730, 40, 100, 23);
 
         jRadioButton12.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
         jRadioButton12.setText("Preventivo programado");
         jPanel16.add(jRadioButton12);
-        jRadioButton12.setBounds(20, 40, 180, 25);
+        jRadioButton12.setBounds(20, 40, 180, 23);
 
         jRadioButton13.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
         jRadioButton13.setText("Preventivo no programado");
         jPanel16.add(jRadioButton13);
-        jRadioButton13.setBounds(230, 40, 180, 25);
+        jRadioButton13.setBounds(230, 40, 180, 23);
 
         jRadioButton14.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
         jRadioButton14.setText("Correctivo");
         jPanel16.add(jRadioButton14);
-        jRadioButton14.setBounds(450, 40, 100, 25);
+        jRadioButton14.setBounds(450, 40, 100, 23);
 
         jRadioButton15.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
         jRadioButton15.setText("Limpieza");
         jPanel16.add(jRadioButton15);
-        jRadioButton15.setBounds(590, 40, 100, 25);
+        jRadioButton15.setBounds(590, 40, 100, 23);
 
         jPanel17.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tipo de mantenimiento", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Franklin Gothic Book", 1, 18))); // NOI18N
         jPanel17.setLayout(null);
@@ -971,27 +982,27 @@ public class OrdenesFrm extends javax.swing.JFrame {
         jRadioButton16.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
         jRadioButton16.setText("Revisión");
         jPanel17.add(jRadioButton16);
-        jRadioButton16.setBounds(730, 40, 100, 25);
+        jRadioButton16.setBounds(730, 40, 100, 23);
 
         jRadioButton17.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
         jRadioButton17.setText("Preventivo programado");
         jPanel17.add(jRadioButton17);
-        jRadioButton17.setBounds(20, 40, 180, 25);
+        jRadioButton17.setBounds(20, 40, 180, 23);
 
         jRadioButton18.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
         jRadioButton18.setText("Preventivo no programado");
         jPanel17.add(jRadioButton18);
-        jRadioButton18.setBounds(230, 40, 180, 25);
+        jRadioButton18.setBounds(230, 40, 180, 23);
 
         jRadioButton19.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
         jRadioButton19.setText("Correctivo");
         jPanel17.add(jRadioButton19);
-        jRadioButton19.setBounds(450, 40, 100, 25);
+        jRadioButton19.setBounds(450, 40, 100, 23);
 
         jRadioButton20.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
         jRadioButton20.setText("Limpieza");
         jPanel17.add(jRadioButton20);
-        jRadioButton20.setBounds(590, 40, 100, 25);
+        jRadioButton20.setBounds(590, 40, 100, 23);
 
         jPanel16.add(jPanel17);
         jPanel17.setBounds(20, 980, 930, 90);
@@ -1089,27 +1100,27 @@ public class OrdenesFrm extends javax.swing.JFrame {
         jRadioButton21.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
         jRadioButton21.setText("Revisión");
         jPanel23.add(jRadioButton21);
-        jRadioButton21.setBounds(730, 40, 100, 25);
+        jRadioButton21.setBounds(730, 40, 100, 23);
 
         jRadioButton22.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
         jRadioButton22.setText("Preventivo programado");
         jPanel23.add(jRadioButton22);
-        jRadioButton22.setBounds(20, 40, 180, 25);
+        jRadioButton22.setBounds(20, 40, 180, 23);
 
         jRadioButton23.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
         jRadioButton23.setText("Preventivo no programado");
         jPanel23.add(jRadioButton23);
-        jRadioButton23.setBounds(230, 40, 180, 25);
+        jRadioButton23.setBounds(230, 40, 180, 23);
 
         jRadioButton24.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
         jRadioButton24.setText("Correctivo");
         jPanel23.add(jRadioButton24);
-        jRadioButton24.setBounds(450, 40, 100, 25);
+        jRadioButton24.setBounds(450, 40, 100, 23);
 
         jRadioButton25.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
         jRadioButton25.setText("Limpieza");
         jPanel23.add(jRadioButton25);
-        jRadioButton25.setBounds(590, 40, 100, 25);
+        jRadioButton25.setBounds(590, 40, 100, 23);
 
         jPanel22.add(jPanel23);
         jPanel23.setBounds(20, 980, 930, 90);
@@ -1120,27 +1131,27 @@ public class OrdenesFrm extends javax.swing.JFrame {
         jRadioButton41.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
         jRadioButton41.setText("Revisión");
         jPanel24.add(jRadioButton41);
-        jRadioButton41.setBounds(730, 40, 100, 25);
+        jRadioButton41.setBounds(730, 40, 100, 23);
 
         jRadioButton42.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
         jRadioButton42.setText("Preventivo programado");
         jPanel24.add(jRadioButton42);
-        jRadioButton42.setBounds(20, 40, 180, 25);
+        jRadioButton42.setBounds(20, 40, 180, 23);
 
         jRadioButton43.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
         jRadioButton43.setText("Preventivo no programado");
         jPanel24.add(jRadioButton43);
-        jRadioButton43.setBounds(230, 40, 180, 25);
+        jRadioButton43.setBounds(230, 40, 180, 23);
 
         jRadioButton44.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
         jRadioButton44.setText("Correctivo");
         jPanel24.add(jRadioButton44);
-        jRadioButton44.setBounds(450, 40, 100, 25);
+        jRadioButton44.setBounds(450, 40, 100, 23);
 
         jRadioButton45.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
         jRadioButton45.setText("Limpieza");
         jPanel24.add(jRadioButton45);
-        jRadioButton45.setBounds(590, 40, 100, 25);
+        jRadioButton45.setBounds(590, 40, 100, 23);
 
         jPanel25.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tipo de mantenimiento", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Franklin Gothic Book", 1, 18))); // NOI18N
         jPanel25.setLayout(null);
@@ -1148,27 +1159,27 @@ public class OrdenesFrm extends javax.swing.JFrame {
         jRadioButton46.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
         jRadioButton46.setText("Revisión");
         jPanel25.add(jRadioButton46);
-        jRadioButton46.setBounds(730, 40, 100, 25);
+        jRadioButton46.setBounds(730, 40, 100, 23);
 
         jRadioButton47.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
         jRadioButton47.setText("Preventivo programado");
         jPanel25.add(jRadioButton47);
-        jRadioButton47.setBounds(20, 40, 180, 25);
+        jRadioButton47.setBounds(20, 40, 180, 23);
 
         jRadioButton48.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
         jRadioButton48.setText("Preventivo no programado");
         jPanel25.add(jRadioButton48);
-        jRadioButton48.setBounds(230, 40, 180, 25);
+        jRadioButton48.setBounds(230, 40, 180, 23);
 
         jRadioButton49.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
         jRadioButton49.setText("Correctivo");
         jPanel25.add(jRadioButton49);
-        jRadioButton49.setBounds(450, 40, 100, 25);
+        jRadioButton49.setBounds(450, 40, 100, 23);
 
         jRadioButton50.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
         jRadioButton50.setText("Limpieza");
         jPanel25.add(jRadioButton50);
-        jRadioButton50.setBounds(590, 40, 100, 25);
+        jRadioButton50.setBounds(590, 40, 100, 23);
 
         jPanel24.add(jPanel25);
         jPanel25.setBounds(20, 980, 930, 90);
@@ -1180,14 +1191,14 @@ public class OrdenesFrm extends javax.swing.JFrame {
         rbEstadoOrden1.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
         rbEstadoOrden1.setText("Finalizada");
         jPanel22.add(rbEstadoOrden1);
-        rbEstadoOrden1.setBounds(240, 40, 220, 25);
+        rbEstadoOrden1.setBounds(240, 40, 220, 23);
 
         btnGroupEstadoOrden.add(rbEstadoOrden0);
         rbEstadoOrden0.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
         rbEstadoOrden0.setSelected(true);
         rbEstadoOrden0.setText("Pendiente");
         jPanel22.add(rbEstadoOrden0);
-        rbEstadoOrden0.setBounds(20, 40, 200, 25);
+        rbEstadoOrden0.setBounds(20, 40, 200, 23);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -1326,6 +1337,26 @@ public class OrdenesFrm extends javax.swing.JFrame {
         rrhhMenu.add(empleadosMenu);
 
         jMenuBar1.add(rrhhMenu);
+
+        reportesMenu.setText("Reportes");
+
+        rPersonalMenu.setText("Personal");
+        rPersonalMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rPersonalMenuActionPerformed(evt);
+            }
+        });
+        reportesMenu.add(rPersonalMenu);
+
+        rOrdenesMenu.setText("Órdenes");
+        rOrdenesMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rOrdenesMenuActionPerformed(evt);
+            }
+        });
+        reportesMenu.add(rOrdenesMenu);
+
+        jMenuBar1.add(reportesMenu);
 
         salir.setText("Salir");
         salir.addActionListener(new java.awt.event.ActionListener() {
@@ -1829,6 +1860,34 @@ public class OrdenesFrm extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_ordenesMenuActionPerformed
 
+    private void rPersonalMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rPersonalMenuActionPerformed
+        try {
+            String r = "src/REPORTES/repEmpleadosSimp.jasper";
+            dbBean db = new dbBean();
+            db.connectRep(r, null, false);
+        } catch(JRException e) {
+            e.printStackTrace();
+            Logger.getLogger(OrdenesFrm.class.getName()).log(Level.SEVERE, null, e);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            Logger.getLogger(OrdenesFrm.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+    }//GEN-LAST:event_rPersonalMenuActionPerformed
+
+    private void rOrdenesMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rOrdenesMenuActionPerformed
+        try {
+            String r = "src/REPORTES/repOrdenesParam.jasper";
+            dbBean db = new dbBean();
+            db.connectRep(r, null, false);
+        } catch(JRException e) {
+            e.printStackTrace();
+            Logger.getLogger(OrdenesFrm.class.getName()).log(Level.SEVERE, null, e);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            Logger.getLogger(OrdenesFrm.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+    }//GEN-LAST:event_rOrdenesMenuActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscarDiagnosticos;
@@ -1886,6 +1945,7 @@ public class OrdenesFrm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel86;
     private javax.swing.JLabel jLabel87;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
@@ -1956,6 +2016,8 @@ public class OrdenesFrm extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JMenuItem ordenesMenu;
+    private javax.swing.JMenuItem rOrdenesMenu;
+    private javax.swing.JMenuItem rPersonalMenu;
     private javax.swing.JRadioButton rbEstadoEquipo0;
     private javax.swing.JRadioButton rbEstadoEquipo1;
     private javax.swing.JRadioButton rbEstadoOrden0;
@@ -1969,6 +2031,7 @@ public class OrdenesFrm extends javax.swing.JFrame {
     private javax.swing.JRadioButton rbTipoMant5;
     private javax.swing.JRadioButton rbTipoUsuario0;
     private javax.swing.JRadioButton rbTipoUsuario1;
+    private javax.swing.JMenu reportesMenu;
     private javax.swing.JMenuItem repuestosMenu;
     private javax.swing.JMenu rrhhMenu;
     private javax.swing.JMenu salir;

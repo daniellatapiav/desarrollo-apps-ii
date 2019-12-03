@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e40ed4b6-6d03-4f9f-be09-fdba9fdd487f">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="idOrdenServicio" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select o.id_ordenServicio, o.fecha_mant, o.plantel, e.nombre, e.apellidos, q.marca, q.modelo, tm.tipoMant_desc, o.estado
+from ordenes_servicio o
+join empleados e on e.id_empleado = o.id_usuario
+join equipos q on q.id_equipo = o.id_equipo
+join tipos_mantenimiento tm on tm.id_tipoMant = o.id_tipoMant
+where (o.id_ordenServicio = $P{idOrdenServicio} or $P{idOrdenServicio} is null)]]>
+	</queryString>
+	<field name="id_ordenServicio" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fecha_mant" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="plantel" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="apellidos" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="marca" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="modelo" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="tipoMant_desc" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="estado" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="161" y="24" width="247" height="32" uuid="188e64f7-7f8d-4d8a-b89d-a4bfdc9a207b"/>
+				<textElement textAlignment="Center">
+					<font size="18" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[ORDENES DE SERVICIO]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="48" splitType="Stretch">
+			<staticText>
+				<reportElement x="5" y="23" width="21" height="20" uuid="916eeeb0-553f-493d-acc3-c8b563a95817"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="34" y="23" width="49" height="20" uuid="f302a684-36a8-4e5c-a8d1-8b91a425357e"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="93" y="23" width="50" height="20" uuid="606c51bb-f06a-4d95-887d-d8ddba73060e"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Plantel]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="161" y="23" width="78" height="20" uuid="fda3085b-e6e8-488f-971f-049dc3f92ae4"/>
+				<textElement>
+					<font isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Usuario]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="276" y="23" width="100" height="20" uuid="eb5502a3-c7e9-42c9-b570-a0dcfc3d2de5"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Equipo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="390" y="23" width="100" height="20" uuid="03d6aef2-95ca-4b1c-bc2f-c5324b865db1"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="505" y="23" width="36" height="20" uuid="8659f586-eed0-497f-a891-5d1650476859"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Estado]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="43" splitType="Stretch">
+			<textField>
+				<reportElement x="5" y="11" width="21" height="20" uuid="5887e5a0-90e5-4529-9b1e-abade0e5d455"/>
+				<textFieldExpression><![CDATA[$F{id_ordenServicio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="34" y="12" width="49" height="20" uuid="e4457a25-db5d-4421-9878-ca6eee0c347e"/>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/mm/yyyy").format($F{fecha_mant})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="93" y="11" width="50" height="20" uuid="514d7efa-b658-427e-9214-e952f95957be"/>
+				<textFieldExpression><![CDATA[$F{plantel}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="161" y="12" width="104" height="20" uuid="6419de83-0870-4582-9027-de10f909a118"/>
+				<textFieldExpression><![CDATA[$F{nombre} + " " + $F{apellidos}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="276" y="12" width="100" height="20" uuid="25a349ab-ac1c-4ff1-8d64-a73bfb7de10f"/>
+				<textFieldExpression><![CDATA[$F{marca} + " " + $F{modelo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="390" y="13" width="100" height="20" uuid="6fdbd107-4e1e-4f2e-9fed-0413af70fa50"/>
+				<textFieldExpression><![CDATA[$F{tipoMant_desc}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="505" y="13" width="36" height="20" uuid="da6e9fb3-a44e-4e80-881f-1c2add275ec4"/>
+				<textFieldExpression><![CDATA[$F{estado}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

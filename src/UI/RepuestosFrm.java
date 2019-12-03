@@ -4,10 +4,15 @@ import BEAN.Repuesto;
 import DAO.RepuestoDAO;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.sql.SQLException;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
 import util.Util;
+import util.dbBean;
 
 public class RepuestosFrm extends javax.swing.JFrame {
     DefaultTableModel dtm;
@@ -26,8 +31,7 @@ public class RepuestosFrm extends javax.swing.JFrame {
         sly = (hd/2) - (400);
         this.setLocation(slx, sly);
         this.setResizable(false);
-        this.setTitle("Proyecto Integrador - Anampa & Tapia");  
-        initComponents();
+        this.setTitle("Proyecto Integrador - Anampa & Tapia");
 
         dtm = (DefaultTableModel) tblRespuesto.getModel();
         repDAO = new RepuestoDAO();
@@ -63,6 +67,9 @@ public class RepuestosFrm extends javax.swing.JFrame {
         diagnosticosMenu = new javax.swing.JMenuItem();
         rrhhMenu = new javax.swing.JMenu();
         empleadosMenu = new javax.swing.JMenuItem();
+        reportesMenu = new javax.swing.JMenu();
+        rPersonalMenu = new javax.swing.JMenuItem();
+        rOrdenesMenu = new javax.swing.JMenuItem();
         salir = new javax.swing.JMenu();
         salirMenu = new javax.swing.JMenuItem();
 
@@ -119,10 +126,10 @@ public class RepuestosFrm extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
         jLabel8.setText("Búsqueda por descripción");
         jLabel8.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
                 jLabel8AncestorAdded(evt);
-            }
-            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
             }
             public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
             }
@@ -255,6 +262,26 @@ public class RepuestosFrm extends javax.swing.JFrame {
 
         jMenuBar1.add(rrhhMenu);
 
+        reportesMenu.setText("Reportes");
+
+        rPersonalMenu.setText("Personal");
+        rPersonalMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rPersonalMenuActionPerformed(evt);
+            }
+        });
+        reportesMenu.add(rPersonalMenu);
+
+        rOrdenesMenu.setText("Órdenes");
+        rOrdenesMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rOrdenesMenuActionPerformed(evt);
+            }
+        });
+        reportesMenu.add(rOrdenesMenu);
+
+        jMenuBar1.add(reportesMenu);
+
         salir.setText("Salir");
         salir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -342,6 +369,10 @@ public class RepuestosFrm extends javax.swing.JFrame {
         limpiaControl();
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        jTabbedPane1.setSelectedIndex(1);
+    }//GEN-LAST:event_btnEditarActionPerformed
+
     private void ordenesMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ordenesMenuActionPerformed
         OrdenesFrm ordenesFrm = new OrdenesFrm();
         ordenesFrm.setVisible(true);
@@ -386,6 +417,34 @@ public class RepuestosFrm extends javax.swing.JFrame {
 
     }//GEN-LAST:event_rrhhMenuActionPerformed
 
+    private void rPersonalMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rPersonalMenuActionPerformed
+        try {
+            String r = "src/REPORTES/repEmpleadosSimp.jasper";
+            dbBean db = new dbBean();
+            db.connectRep(r, null, false);
+        } catch(JRException e) {
+            e.printStackTrace();
+            Logger.getLogger(OrdenesFrm.class.getName()).log(Level.SEVERE, null, e);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            Logger.getLogger(OrdenesFrm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_rPersonalMenuActionPerformed
+
+    private void rOrdenesMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rOrdenesMenuActionPerformed
+        try {
+            String r = "src/REPORTES/repOrdenesSimple.jasper";
+            dbBean db = new dbBean();
+            db.connectRep(r, null, false);
+        } catch(JRException e) {
+            e.printStackTrace();
+            Logger.getLogger(OrdenesFrm.class.getName()).log(Level.SEVERE, null, e);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            Logger.getLogger(OrdenesFrm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_rOrdenesMenuActionPerformed
+
     private void salirMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salirMenuActionPerformed
         System.exit(0);
     }//GEN-LAST:event_salirMenuActionPerformed
@@ -393,21 +452,15 @@ public class RepuestosFrm extends javax.swing.JFrame {
     private void salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salirActionPerformed
 
     }//GEN-LAST:event_salirActionPerformed
-
-    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        jTabbedPane1.setSelectedIndex(1);
-    }//GEN-LAST:event_btnEditarActionPerformed
     
     private void llenaTabla(boolean swr, String cadr) {
          Vector<Repuesto> RespuestoDao = repDAO.listarRepuestos(swr, cadr);
-         int i =  RespuestoDao.size();
 
          for(int j = 0; j<RespuestoDao.size();j++){
             Vector vect = new Vector();
             vect.addElement(RespuestoDao.get(j).getId_repuesto());
             vect.addElement(RespuestoDao.get(j).getRep_desc());
-            vect.addElement(RespuestoDao.get(j).getCosto_unitario()+"");
-            
+            vect.addElement(RespuestoDao.get(j).getCosto_unitario());
             dtm.addRow(vect);
         }
     }
@@ -475,6 +528,9 @@ public class RepuestosFrm extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JMenuItem ordenesMenu;
+    private javax.swing.JMenuItem rOrdenesMenu;
+    private javax.swing.JMenuItem rPersonalMenu;
+    private javax.swing.JMenu reportesMenu;
     private javax.swing.JMenuItem repuestosMenu;
     private javax.swing.JMenu rrhhMenu;
     private javax.swing.JMenu salir;

@@ -5,10 +5,15 @@ import BEAN.Equipo;
 import DAO.EquipoDAO;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.sql.SQLException;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
 import util.Util;
+import util.dbBean;
 
 public class EquiposFrm extends javax.swing.JFrame {
     DefaultTableModel dtm;
@@ -124,6 +129,9 @@ public class EquiposFrm extends javax.swing.JFrame {
         diagnosticosMenu = new javax.swing.JMenuItem();
         rrhhMenu = new javax.swing.JMenu();
         empleadosMenu = new javax.swing.JMenuItem();
+        reportesMenu = new javax.swing.JMenu();
+        rPersonalMenu = new javax.swing.JMenuItem();
+        rOrdenesMenu = new javax.swing.JMenuItem();
         salir = new javax.swing.JMenu();
         salirMenu = new javax.swing.JMenuItem();
 
@@ -174,10 +182,10 @@ public class EquiposFrm extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
         jLabel8.setText("Búsqueda por marca o modelo");
         jLabel8.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
                 jLabel8AncestorAdded(evt);
-            }
-            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
             }
             public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
             }
@@ -361,6 +369,26 @@ public class EquiposFrm extends javax.swing.JFrame {
 
         jMenuBar1.add(rrhhMenu);
 
+        reportesMenu.setText("Reportes");
+
+        rPersonalMenu.setText("Personal");
+        rPersonalMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rPersonalMenuActionPerformed(evt);
+            }
+        });
+        reportesMenu.add(rPersonalMenu);
+
+        rOrdenesMenu.setText("Órdenes");
+        rOrdenesMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rOrdenesMenuActionPerformed(evt);
+            }
+        });
+        reportesMenu.add(rOrdenesMenu);
+
+        jMenuBar1.add(reportesMenu);
+
         salir.setText("Salir");
         salir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -524,6 +552,34 @@ public class EquiposFrm extends javax.swing.JFrame {
 
     }//GEN-LAST:event_rrhhMenuActionPerformed
 
+    private void rPersonalMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rPersonalMenuActionPerformed
+        try {
+            String r = "src/REPORTES/repEmpleadosSimp.jasper";
+            dbBean db = new dbBean();
+            db.connectRep(r, null, false);
+        } catch(JRException e) {
+            e.printStackTrace();
+            Logger.getLogger(OrdenesFrm.class.getName()).log(Level.SEVERE, null, e);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            Logger.getLogger(OrdenesFrm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_rPersonalMenuActionPerformed
+
+    private void rOrdenesMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rOrdenesMenuActionPerformed
+        try {
+            String r = "src/REPORTES/repOrdenesSimple.jasper";
+            dbBean db = new dbBean();
+            db.connectRep(r, null, false);
+        } catch(JRException e) {
+            e.printStackTrace();
+            Logger.getLogger(OrdenesFrm.class.getName()).log(Level.SEVERE, null, e);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            Logger.getLogger(OrdenesFrm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_rOrdenesMenuActionPerformed
+
     private void salirMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salirMenuActionPerformed
         System.exit(0);
     }//GEN-LAST:event_salirMenuActionPerformed
@@ -583,6 +639,9 @@ public class EquiposFrm extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JMenuItem ordenesMenu;
+    private javax.swing.JMenuItem rOrdenesMenu;
+    private javax.swing.JMenuItem rPersonalMenu;
+    private javax.swing.JMenu reportesMenu;
     private javax.swing.JMenuItem repuestosMenu;
     private javax.swing.JMenu rrhhMenu;
     private javax.swing.JMenu salir;

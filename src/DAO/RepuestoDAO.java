@@ -72,8 +72,7 @@ public class RepuestoDAO {
         dbBean db = new dbBean();
         String sql = "";
             if (procedimiento.toLowerCase().equals("insert")) {
-            sql = "INSERT INTO [dbo].[Repuestos]([id_repuesto],[rep_desc],[costo_unitario])  "
-                    + " VALUES ("+var.getId_repuesto()+",'"+var.getRep_desc()+"',"+var.getCosto_unitario()+" )";
+            sql = "INSERT INTO Repuestos VALUES ("+var.getId_repuesto()+",'"+var.getRep_desc()+"',"+var.getCosto_unitario()+" )";
             } else if (procedimiento.toLowerCase().equals("update")) {
                 sql = "UPDATE Repuestos SET rep_desc='"+var.getRep_desc()+"',costo_unitario="+var.getCosto_unitario()+" "
                         + " WHERE id_repuesto = " + var.getId_repuesto();

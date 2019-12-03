@@ -71,8 +71,7 @@ public class DiagnosticoDAO {
         String sql = "";
         
         if (procedimiento.toLowerCase().equals("insert")) {
-            sql = "INSERT INTO [dbo].[Diagnosticos]([id_diagnostico],[diag_desc])  "
-                    + " VALUES ("+var.getId_diagnostico()+",'"+var.getDiag_desc()+"' )";
+            sql = "INSERT INTO Diagnosticos VALUES ("+var.getId_diagnostico()+",'"+var.getDiag_desc()+"' )";
         } else if (procedimiento.toLowerCase().equals("update")) {
             sql = "UPDATE Diagnosticos SET diag_desc='"+var.getDiag_desc()+"'  "
                     + " WHERE id_diagnostico = " + var.getId_diagnostico();

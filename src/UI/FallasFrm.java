@@ -5,10 +5,15 @@ import DAO.EmpleadoDAO;
 import DAO.FallaDAO;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.sql.SQLException;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
 import util.Util;
+import util.dbBean;
 
 public class FallasFrm extends javax.swing.JFrame {
     DefaultTableModel dtm;
@@ -76,17 +81,20 @@ public class FallasFrm extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         TxaDescripcion = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
-        jMenuBar2 = new javax.swing.JMenuBar();
-        tiMenu1 = new javax.swing.JMenu();
-        ordenesMenu1 = new javax.swing.JMenuItem();
-        equiposMenu1 = new javax.swing.JMenuItem();
-        repuestosMenu1 = new javax.swing.JMenuItem();
-        fallasMenu1 = new javax.swing.JMenuItem();
-        diagnosticosMenu1 = new javax.swing.JMenuItem();
-        rrhhMenu1 = new javax.swing.JMenu();
-        empleadosMenu1 = new javax.swing.JMenuItem();
-        salir1 = new javax.swing.JMenu();
-        salirMenu1 = new javax.swing.JMenuItem();
+        jMenuBar3 = new javax.swing.JMenuBar();
+        tiMenu2 = new javax.swing.JMenu();
+        ordenesMenu2 = new javax.swing.JMenuItem();
+        equiposMenu2 = new javax.swing.JMenuItem();
+        repuestosMenu2 = new javax.swing.JMenuItem();
+        fallasMenu2 = new javax.swing.JMenuItem();
+        diagnosticosMenu2 = new javax.swing.JMenuItem();
+        rrhhMenu2 = new javax.swing.JMenu();
+        empleadosMenu2 = new javax.swing.JMenuItem();
+        reportesMenu = new javax.swing.JMenu();
+        rPersonalMenu = new javax.swing.JMenuItem();
+        rOrdenesMenu = new javax.swing.JMenuItem();
+        salir2 = new javax.swing.JMenu();
+        salirMenu2 = new javax.swing.JMenuItem();
 
         tiMenu.setText("TI");
 
@@ -217,10 +225,10 @@ public class FallasFrm extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
         jLabel8.setText("Búsqueda por tipo o descripción");
         jLabel8.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
                 jLabel8AncestorAdded(evt);
-            }
-            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
             }
             public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
             }
@@ -301,90 +309,110 @@ public class FallasFrm extends javax.swing.JFrame {
         getContentPane().add(jLabel1);
         jLabel1.setBounds(0, 40, 1000, 50);
 
-        tiMenu1.setText("TI");
+        tiMenu2.setText("TI");
 
-        ordenesMenu1.setText("Órdenes");
-        ordenesMenu1.addActionListener(new java.awt.event.ActionListener() {
+        ordenesMenu2.setText("Órdenes");
+        ordenesMenu2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ordenesMenu1ActionPerformed(evt);
+                ordenesMenu2ActionPerformed(evt);
             }
         });
-        tiMenu1.add(ordenesMenu1);
+        tiMenu2.add(ordenesMenu2);
 
-        equiposMenu1.setText("Equipos");
-        equiposMenu1.addMouseListener(new java.awt.event.MouseAdapter() {
+        equiposMenu2.setText("Equipos");
+        equiposMenu2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                equiposMenu1MouseClicked(evt);
+                equiposMenu2MouseClicked(evt);
             }
         });
-        equiposMenu1.addActionListener(new java.awt.event.ActionListener() {
+        equiposMenu2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                equiposMenu1ActionPerformed(evt);
+                equiposMenu2ActionPerformed(evt);
             }
         });
-        tiMenu1.add(equiposMenu1);
+        tiMenu2.add(equiposMenu2);
 
-        repuestosMenu1.setText("Repuestos");
-        repuestosMenu1.addActionListener(new java.awt.event.ActionListener() {
+        repuestosMenu2.setText("Repuestos");
+        repuestosMenu2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                repuestosMenu1ActionPerformed(evt);
+                repuestosMenu2ActionPerformed(evt);
             }
         });
-        tiMenu1.add(repuestosMenu1);
+        tiMenu2.add(repuestosMenu2);
 
-        fallasMenu1.setText("Fallas");
-        fallasMenu1.addActionListener(new java.awt.event.ActionListener() {
+        fallasMenu2.setText("Fallas");
+        fallasMenu2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                fallasMenu1ActionPerformed(evt);
+                fallasMenu2ActionPerformed(evt);
             }
         });
-        tiMenu1.add(fallasMenu1);
+        tiMenu2.add(fallasMenu2);
 
-        diagnosticosMenu1.setText("Diagnósticos");
-        diagnosticosMenu1.addActionListener(new java.awt.event.ActionListener() {
+        diagnosticosMenu2.setText("Diagnósticos");
+        diagnosticosMenu2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                diagnosticosMenu1ActionPerformed(evt);
+                diagnosticosMenu2ActionPerformed(evt);
             }
         });
-        tiMenu1.add(diagnosticosMenu1);
+        tiMenu2.add(diagnosticosMenu2);
 
-        jMenuBar2.add(tiMenu1);
+        jMenuBar3.add(tiMenu2);
 
-        rrhhMenu1.setText("RRHH");
-        rrhhMenu1.addActionListener(new java.awt.event.ActionListener() {
+        rrhhMenu2.setText("RRHH");
+        rrhhMenu2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rrhhMenu1ActionPerformed(evt);
+                rrhhMenu2ActionPerformed(evt);
             }
         });
 
-        empleadosMenu1.setText("Empleados");
-        empleadosMenu1.addActionListener(new java.awt.event.ActionListener() {
+        empleadosMenu2.setText("Empleados");
+        empleadosMenu2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                empleadosMenu1ActionPerformed(evt);
+                empleadosMenu2ActionPerformed(evt);
             }
         });
-        rrhhMenu1.add(empleadosMenu1);
+        rrhhMenu2.add(empleadosMenu2);
 
-        jMenuBar2.add(rrhhMenu1);
+        jMenuBar3.add(rrhhMenu2);
 
-        salir1.setText("Salir");
-        salir1.addActionListener(new java.awt.event.ActionListener() {
+        reportesMenu.setText("Reportes");
+
+        rPersonalMenu.setText("Personal");
+        rPersonalMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                salir1ActionPerformed(evt);
+                rPersonalMenuActionPerformed(evt);
             }
         });
+        reportesMenu.add(rPersonalMenu);
 
-        salirMenu1.setText("Cerrar sesión");
-        salirMenu1.addActionListener(new java.awt.event.ActionListener() {
+        rOrdenesMenu.setText("Órdenes");
+        rOrdenesMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                salirMenu1ActionPerformed(evt);
+                rOrdenesMenuActionPerformed(evt);
             }
         });
-        salir1.add(salirMenu1);
+        reportesMenu.add(rOrdenesMenu);
 
-        jMenuBar2.add(salir1);
+        jMenuBar3.add(reportesMenu);
 
-        setJMenuBar(jMenuBar2);
+        salir2.setText("Salir");
+        salir2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                salir2ActionPerformed(evt);
+            }
+        });
+
+        salirMenu2.setText("Cerrar sesión");
+        salirMenu2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                salirMenu2ActionPerformed(evt);
+            }
+        });
+        salir2.add(salirMenu2);
+
+        jMenuBar3.add(salir2);
+
+        setJMenuBar(jMenuBar3);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -507,57 +535,85 @@ public class FallasFrm extends javax.swing.JFrame {
         jTabbedPane1.setSelectedIndex(1);
     }//GEN-LAST:event_btnEditarActionPerformed
 
-    private void ordenesMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ordenesMenu1ActionPerformed
+    private void ordenesMenu2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ordenesMenu2ActionPerformed
         OrdenesFrm ordenesFrm = new OrdenesFrm();
         ordenesFrm.setVisible(true);
         this.setVisible(false);
-    }//GEN-LAST:event_ordenesMenu1ActionPerformed
+    }//GEN-LAST:event_ordenesMenu2ActionPerformed
 
-    private void equiposMenu1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_equiposMenu1MouseClicked
+    private void equiposMenu2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_equiposMenu2MouseClicked
 
-    }//GEN-LAST:event_equiposMenu1MouseClicked
+    }//GEN-LAST:event_equiposMenu2MouseClicked
 
-    private void equiposMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_equiposMenu1ActionPerformed
+    private void equiposMenu2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_equiposMenu2ActionPerformed
         EquiposFrm equiposFrm = new EquiposFrm();
         equiposFrm.setVisible(true);
         this.setVisible(false);
-    }//GEN-LAST:event_equiposMenu1ActionPerformed
+    }//GEN-LAST:event_equiposMenu2ActionPerformed
 
-    private void repuestosMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_repuestosMenu1ActionPerformed
+    private void repuestosMenu2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_repuestosMenu2ActionPerformed
         RepuestosFrm repuestosFrm = new RepuestosFrm();
         repuestosFrm.setVisible(true);
         this.setVisible(false);
-    }//GEN-LAST:event_repuestosMenu1ActionPerformed
+    }//GEN-LAST:event_repuestosMenu2ActionPerformed
 
-    private void fallasMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fallasMenu1ActionPerformed
+    private void fallasMenu2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fallasMenu2ActionPerformed
         FallasFrm fallasFrm = new FallasFrm();
         fallasFrm.setVisible(true);
         this.setVisible(false);
-    }//GEN-LAST:event_fallasMenu1ActionPerformed
+    }//GEN-LAST:event_fallasMenu2ActionPerformed
 
-    private void diagnosticosMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_diagnosticosMenu1ActionPerformed
+    private void diagnosticosMenu2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_diagnosticosMenu2ActionPerformed
         DiagnosticosFrm diagnosticosFrm = new DiagnosticosFrm();
         diagnosticosFrm.setVisible(true);
         this.setVisible(false);
-    }//GEN-LAST:event_diagnosticosMenu1ActionPerformed
+    }//GEN-LAST:event_diagnosticosMenu2ActionPerformed
 
-    private void empleadosMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empleadosMenu1ActionPerformed
+    private void empleadosMenu2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empleadosMenu2ActionPerformed
         EmpleadosFrm empleadosFrm = new EmpleadosFrm();
         empleadosFrm.setVisible(true);
         this.setVisible(false);
-    }//GEN-LAST:event_empleadosMenu1ActionPerformed
+    }//GEN-LAST:event_empleadosMenu2ActionPerformed
 
-    private void rrhhMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rrhhMenu1ActionPerformed
+    private void rrhhMenu2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rrhhMenu2ActionPerformed
 
-    }//GEN-LAST:event_rrhhMenu1ActionPerformed
+    }//GEN-LAST:event_rrhhMenu2ActionPerformed
 
-    private void salirMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salirMenu1ActionPerformed
+    private void rPersonalMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rPersonalMenuActionPerformed
+        try {
+            String r = "src/REPORTES/repEmpleadosSimp.jasper";
+            dbBean db = new dbBean();
+            db.connectRep(r, null, false);
+        } catch(JRException e) {
+            e.printStackTrace();
+            Logger.getLogger(OrdenesFrm.class.getName()).log(Level.SEVERE, null, e);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            Logger.getLogger(OrdenesFrm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_rPersonalMenuActionPerformed
+
+    private void rOrdenesMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rOrdenesMenuActionPerformed
+        try {
+            String r = "src/REPORTES/repOrdenesSimple.jasper";
+            dbBean db = new dbBean();
+            db.connectRep(r, null, false);
+        } catch(JRException e) {
+            e.printStackTrace();
+            Logger.getLogger(OrdenesFrm.class.getName()).log(Level.SEVERE, null, e);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            Logger.getLogger(OrdenesFrm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_rOrdenesMenuActionPerformed
+
+    private void salirMenu2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salirMenu2ActionPerformed
         System.exit(0);
-    }//GEN-LAST:event_salirMenu1ActionPerformed
+    }//GEN-LAST:event_salirMenu2ActionPerformed
 
-    private void salir1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salir1ActionPerformed
+    private void salir2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salir2ActionPerformed
 
-    }//GEN-LAST:event_salir1ActionPerformed
+    }//GEN-LAST:event_salir2ActionPerformed
 
     private void limpiaControl(){
         txtTipo.setText("");
@@ -604,37 +660,40 @@ public class FallasFrm extends javax.swing.JFrame {
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnRegistrar;
     private javax.swing.JMenuItem diagnosticosMenu;
-    private javax.swing.JMenuItem diagnosticosMenu1;
+    private javax.swing.JMenuItem diagnosticosMenu2;
     private javax.swing.JMenuItem empleadosMenu;
-    private javax.swing.JMenuItem empleadosMenu1;
+    private javax.swing.JMenuItem empleadosMenu2;
     private javax.swing.JMenuItem equiposMenu;
-    private javax.swing.JMenuItem equiposMenu1;
+    private javax.swing.JMenuItem equiposMenu2;
     private javax.swing.JMenuItem fallasMenu;
-    private javax.swing.JMenuItem fallasMenu1;
+    private javax.swing.JMenuItem fallasMenu2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuBar jMenuBar2;
+    private javax.swing.JMenuBar jMenuBar3;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JMenuItem ordenesMenu;
-    private javax.swing.JMenuItem ordenesMenu1;
+    private javax.swing.JMenuItem ordenesMenu2;
+    private javax.swing.JMenuItem rOrdenesMenu;
+    private javax.swing.JMenuItem rPersonalMenu;
+    private javax.swing.JMenu reportesMenu;
     private javax.swing.JMenuItem repuestosMenu;
-    private javax.swing.JMenuItem repuestosMenu1;
+    private javax.swing.JMenuItem repuestosMenu2;
     private javax.swing.JMenu rrhhMenu;
-    private javax.swing.JMenu rrhhMenu1;
+    private javax.swing.JMenu rrhhMenu2;
     private javax.swing.JMenu salir;
-    private javax.swing.JMenu salir1;
+    private javax.swing.JMenu salir2;
     private javax.swing.JMenuItem salirMenu;
-    private javax.swing.JMenuItem salirMenu1;
+    private javax.swing.JMenuItem salirMenu2;
     private javax.swing.JTable tblPersonal;
     private javax.swing.JMenu tiMenu;
-    private javax.swing.JMenu tiMenu1;
+    private javax.swing.JMenu tiMenu2;
     private javax.swing.JTextField txtBusq;
     private javax.swing.JTextField txtTipo;
     // End of variables declaration//GEN-END:variables

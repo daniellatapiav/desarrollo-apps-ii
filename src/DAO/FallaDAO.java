@@ -72,8 +72,7 @@ public class FallaDAO {
         dbBean db = new dbBean();
         String sql = "";
         if (procedimiento.toLowerCase().equals("insert")) {
-            sql = "INSERT INTO [dbo].[Fallas]([id_falla],[tipo_falla],[falla_desc])  "
-                    + " VALUES ("+fall.getId_falla()+",'"+fall.getTipo_falla()+"','"+fall.getFalla_desc()+"' )";
+            sql = "INSERT INTO Fallas VALUES ("+fall.getId_falla()+",'"+fall.getTipo_falla()+"','"+fall.getFalla_desc()+"' )";
         } else if (procedimiento.toLowerCase().equals("update")) {
             sql = "UPDATE Fallas SET tipo_falla='"+fall.getTipo_falla()+"',falla_desc='"+fall.getFalla_desc()+"' "
                     + " WHERE id_falla = " + fall.getId_falla();
